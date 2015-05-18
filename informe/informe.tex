@@ -48,7 +48,13 @@ Homero: (al otro agente)¡¡Creo que le habla a usted!!!. \dots
 
 \section{Contexto de creación de la herramienta}
 
-Pablo
+ En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema. En principio, un sistema se podía describir con una sola fórmula de lógica temporal. En la práctica no era así. La lógica temporal de Pnueli era ideal para describir ciertas propiedades de los sistemas, pero poco adecuada para muchas otras. Es por ello que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli}
+
+A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions,
+una variante simple de la lógica temporal de Pnueli). TLA facilita la tarea de describir un sistema completa en una sola fórmula. La mayor parte de una especificación TLA se compone de Matemática ordinaria, no temporal. La lógica temporal sólo juega un rol significativo en la descripción de aquellas propiedades para las que realmente es buena. \cite{specsys}
+
+En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof Systema (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. El proyecto cuenta con una activa lista de mail para discusiones relativas a su uso y un sistema público de seguimiento de \textit{bugs}.
+
 
 \section{Objetivo de la herramienta}
 
@@ -83,34 +89,22 @@ Oso (pedí ayuda si es mucho!)
 %
 \begin{thebibliography}{5}
 %
-\bibitem {clar:eke}
-Clarke, F., Ekeland, I.:
-Nonlinear oscillations and
-boundary-value problems for Hamiltonian systems.
-Arch. Rat. Mech. Anal. 78, 315--333 (1982)
+\bibitem {pnueli}
+Pnueli, Amir
 
-\bibitem {clar:eke:2}
-Clarke, F., Ekeland, I.:
-Solutions p\'{e}riodiques, du
-p\'{e}riode donn\'{e}e, des \'{e}quations hamiltoniennes.
-Note CRAS Paris 287, 1013--1015 (1978)
+The temporal logic of programs
 
-\bibitem {mich:tar}
-Michalek, R., Tarantello, G.:
-Subharmonic solutions with prescribed minimal
-period for nonautonomous Hamiltonian systems.
-J. Diff. Eq. 72, 28--55 (1988)
+Proceedings of the 18th IEEE Symposium on Foundation of Computer Science, 1977
 
-\bibitem {tar}
-Tarantello, G.:
-Subharmonic solutions for Hamiltonian
-systems via a $\bbbz_{p}$ pseudoindex theory.
-Annali di Matematica Pura (to appear)
+\bibitem {specsys}
+Lamport, Leslie
 
-\bibitem {rab}
-Rabinowitz, P.:
-On subharmonic solutions of a Hamiltonian system.
-Comm. Pure Appl. Math. 33, 609--633 (1980)
+Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers
+
+Addison-Wesley. ISBN 0-321-14306-X, 2002
+
+
+
 
 \end{thebibliography}
 
