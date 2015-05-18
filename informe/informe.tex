@@ -52,7 +52,20 @@ Pablo
 
 \section{Objetivo de la herramienta}
 
-Giovanni
+TLAPS es una herramienta que verifica mecánicamente la correctitud
+de pruebas escritas en TLA+.
+TLA+ es un lenguaje de especificación de propósito general, orientado a sistemas
+concurrentes y distribuidos.
+
+En general, una prueba de TLA+, es una colección de sentencias estructuradas jerárquicamente,
+donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
+
+El propósito de TLAPS is verificar las pruebas de teoremas propuestas por el usurio, es decir,
+que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
+y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.
+
+Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, entonces, como resultado
+de comprobar la prueba, TLAPS verifica si el teorema es cierto.
 
 \section{Descripción de la herramienta del lado del usuario}
 
