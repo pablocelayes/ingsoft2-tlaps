@@ -66,7 +66,7 @@ concurrentes y distribuidos.
 En general, una prueba de TLA+, es una colección de sentencias estructuradas jerárquicamente,
 donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
 
-El propósito de TLAPS is verificar las pruebas de teoremas propuestas por el usurio, es decir,
+El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir,
 que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
 y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.
 
@@ -75,7 +75,59 @@ de comprobar la prueba, TLAPS verifica si el teorema es cierto.
 
 \section{Descripción de la herramienta del lado del usuario}
 
-Oso (pedí ayuda si es mucho!)
+TLA+ es una herramienta de alto nivel para la descripción de los sistemas, especialmente sistemas concurrentes asíncronos y distribuidos. Fue diseñado para ser simple, muy expresivo, 
+y permitir una formalización directa del razonamiento de aserciones tradicional.
+Se fundamenta en la idea de que la mejor manera de describir formalmente es con matemática simple, y que un lenguaje de especificación debe contener lo menos posible más allá de lo 
+que se necesita para escribir matemática simple con precisión.
+
+Para cumplir con el objetivo de formalizar el razonamiento de aserciones, TLA+  esta basado en TLA (Temporal Logic of Action), una variante simple de la lógica temporal lineal.
+
+TLA+ utiliza a PlusCal como lenguaje de especificación, para el modelado se basa en el modelo Standard, TLC es quien se encarga de verificar la corrección de los modelos y 
+finalmente TLA+ Proof System es un asistente de pruebas, para verificar las especificaciones dadas en TLA+, 
+en esta herramienta específica es donde nos enfocaremos el resto del documento. 
+
+Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utilizar todas estas herramientas de manera sencilla e integrada.
+
+  \subsection{PlusCal}
+  TLA+ utiliza PlusCal como lenguaje en el cual se debe realizar la especificación.
+  PlusCal es un lenguaje algorítmico que, a primera vista, parece un lenguaje de programación imperativo pequeño. Sin embargo, una expresión PlusCal puede ser cualquier expresión de 
+  TLA+, lo que significa cualquier cosa que puede ser expresado con matemática. Esto hace a PlusCal mucho más expresivo que cualquier lenguaje de programación.
+  Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
+  Fue diseñado para  reemplazar al  pseudocódigo, conservando su sencillez y al mismo tiempo proporciona un lenguaje formalmente definido y verificable, en el cual las personas 
+  sin tantos conocimientos profundos en matematica pueden definir su especificacion, de forma sencilla y facil de entender y luego la herramienta se encarga de traducir esta a TLA+.
+
+  \subsection{Modelo STANDARD}
+  En un model Standard, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es 
+  una secuencia de estados y un estado es una asignación de valores a las variables.
+  En este modelo, un evento, también llamado un paso, es la transición de un estado a otro en un comportamiento.
+
+  \subsection{TLC}
+  El corrector de modelos TLC construye un modelo de estado finito de las especificaciones TLA+  para el control de las propiedades de invariancia. Genera un conjunto de estados 
+  iniciales que satisfacen la especificación, a continuación, realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidos. 
+  La ejecución se detiene cuando todas las transiciones de estado conducen a estados que ya han sido descubiertos. Si TLC descubre un estado que viola una invariante del sistema, 
+  se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, 
+  reporta un mensaje de error explicitando el posible deadlock(opcional).
+  
+  TLC ofrece un método de declarar simetrías modelo para defenderse contra explosión combinatoria. También paraleliza el paso de la exploración del estado, 
+  y se puede ejecutar en modo distribuido para distribuir la carga de trabajo a través de un gran número de computadoras.
+  
+  TLA+ es un ejemplo de lenguaje de mucha expresividad, puede ser fácilmente
+  utilizado para especificar un programa que acepte una máquina de Turing arbitraria como entrada y puede determinar si se detendrá o no. 
+  Ningún corrector de modelos puede manejar todas las especificaciones TLA+. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas 
+  y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
+
+  \subsection{TLA+ Proof System}
+  TLAPS, el sistema de prueba de TLA+, es una plataforma que se extiende de TLA+, para el desarrollo y verificación mecánica de demostraciones. 
+  
+  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matematica elemental. Soporta desarrollo incremental y  verifica la estructura jerárquica 
+  de la demostracion.
+  
+  La herramienta traduce un demostración en un conjunto de pruebas independientes, y llama a una colección de verificadores que se encargan de chequearlas, 
+  que incluyen demostradores de teoremas, asistentes de pruebas, chequeadores de satisfabilidad y procedimientos de decisión.
+  
+  La versión actualmente disponible TLAPS maneja casi toda la parte no temporal de TLA+, como así también el razonamiento temporal necesario para probar propiedades de 
+  seguridad (safety) estándares, en particular, invariantes y simulación de transiciones, pero no para propiedades de vitalidad (liveness).
+
 
 \section{Aspectos técnicos de la herramienta}
 \section{Casos de estudio (exitosos o no) de la herramienta}
