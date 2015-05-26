@@ -8,6 +8,7 @@
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
+\usepackage{url}
 %
 \begin{document}
 %
@@ -17,7 +18,7 @@
 \title{Análisis de la herramienta TLA+ Proof System}
 %
 %
-\author{Pablo Celayes \and Giovanni Rescia \and Ariel Wolfmann}
+\author{Pablo Celayes, Giovanni Rescia, Ariel Wolfmann}
 
 %
 \institute{Facultad de Matemática, Astronomía y Física\\
@@ -53,7 +54,7 @@ Homero: (al otro agente)¡¡Creo que le habla a usted!!!. \dots
 A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions,
 una variante simple de la lógica temporal de Pnueli). TLA facilita la tarea de describir un sistema completa en una sola fórmula. La mayor parte de una especificación TLA se compone de Matemática ordinaria, no temporal. La lógica temporal sólo juega un rol significativo en la descripción de aquellas propiedades para las que realmente es buena. \cite{specsys}
 
-En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof Systema (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. El proyecto cuenta con una activa lista de mail para discusiones relativas a su uso y un sistema público de seguimiento de \textit{bugs}.
+En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof System (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. El proyecto cuenta con una activa lista de mail para discusiones relativas a su uso y un sistema público de seguimiento de \textit{bugs}.
 
 
 \section{Objetivo de la herramienta}
@@ -141,9 +142,11 @@ Las partes centrales de TLAPS son: el administrador de pruebas de LTA (\textit{L
   a las variables, en cambio, se usan dos copias de una variable \textit{v}: \textit{v} y \textit{v'}, que hacen referencia a un valor antes, y después de la transición. 
   TLAPS se ejecuta invocando a TLAPM en el módulo raíz e indicando qué pruebas chequear. (Verifying Safety Properties With the TLA+ Proof System).
   \\
+  
   El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para
   probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
   \\
+  
   Cada obligación de prueba es independiente y puede ser probada por separado. Cuando los
   backends no pueden encontrar una prueba en un límite razonable de tiempo, el sistema
   informará cuál obligación es la que falló, junto con su contexto (falló, cancelada por el usuario, omitida) y objetivo de la prueba. El usuario debe
@@ -151,11 +154,13 @@ Las partes centrales de TLAPS son: el administrador de pruebas de LTA (\textit{L
   demasiado complejo y necesita ser refinado con otro nivel de prueba. Esto indica que pueden haber obligaciones que son ciertas, y que por una cuestión de \textit{timeout},
   el backend las verifica como falsas.
   \\
+  
   Si un backend encuentra una prueba de una obligación, es decir si la puede verificar,
   genera una traza de la prueba realizada, llamada \textit{certificación de prueba}. LTAPM  mediará
   la certificación de los scripts de prueba en un entorno lógico confiable, que en el diseño actual
   es Isabelle/TLA+.
   \\
+  
   Finalmente, luego de certificar todas las obligaciones de prueba posibles generadas por las pruebas
   terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos. Primero, LTAPM  la
   estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
@@ -166,9 +171,29 @@ Las partes centrales de TLAPS son: el administrador de pruebas de LTA (\textit{L
   \subsection{Backends}
     \subsection{Isabelle}
     
-\section{Casos de estudio (exitosos o no) de la herramienta}
+\section{Casos de estudio de la herramienta}
+
+
+\subsection{Amazon}
+\textit{Amazon Web Services} utiliza TLA+ desde 2011. Haciendo \textit{model checking} sobre TLA+ se han descubierto bugs
+en DynamoDB, S3, EBS, y en un \textit{lock manager} interno distribuído.
+
+Algunos bugs requirieron trazas de 35 pasos para ser detectados. También se ha usado model checking para verificar optimizaciones agresivas.
+
+Además, las especificaciones TLA+ han resultado valiosas como documentación y ayudas de diseño.
+\cite{amazon}
+
+\subsection{XBOX 360}
+Microsoft usó TLA+ para encontrar y resolver un \textit{bug} en el sistema de memoria de la consola \textit{XBOX 360}.
+\cite{xbox360}
+
+
 \section{Comparación con otras herramientas}
+
+
 \section{Caso de estudio elegido}
+
+
 \section{Conclusiones particulares}
 
 
@@ -191,19 +216,24 @@ Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engine
 
 Addison-Wesley. ISBN 0-321-14306-X, 2002
 
+\bibitem {amazon}
+Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff 
 
+How Amazon Web Services Uses Formal Methods
 
+Communications of the ACM, Vol. 58 No. 4, Pages 66-73
+
+\bibitem {xbox360}
+Lamport, Leslie 
+
+Thinking for Programmers (at 21m46s) (Grabación de charla técnica). 
+
+\url{http://channel9.msdn.com/Events/Build/2014/3-642#time=21m46s}
+
+San Francisco: Microsoft.
 
 \end{thebibliography}
 
+\clearpage
 
-\clearpage
-\addtocmark[2]{Author Index} % additional numbered TOC entry
-\renewcommand{\indexname}{Author Index}
-\printindex
-\clearpage
-\addtocmark[2]{Subject Index} % additional numbered TOC entry
-\markboth{Subject Index}{Subject Index}
-\renewcommand{\indexname}{Subject Index}
-\input{subjidx.ind}
 \end{document}
