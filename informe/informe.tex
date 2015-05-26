@@ -60,7 +60,7 @@ En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de
 
 TLAPS es una herramienta que verifica mecánicamente la correctitud
 de pruebas escritas en TLA+.
-TLA+ es un lenguaje de especificación de propósito general, orientado a sistemas
+Éste, es un lenguaje de especificación de propósito general, orientado a sistemas
 concurrentes y distribuidos.
 
 En general, una prueba de TLA+, es una colección de sentencias estructuradas jerárquicamente,
@@ -130,6 +130,42 @@ Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utiliza
 
 
 \section{Aspectos técnicos de la herramienta}
+
+Las partes centrales de TLAPS son: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{back-ends, o, backends} que éste invoca: ISABELLE, ZENON y SMT (Satisfiability Modulo Theories).
+
+  \subsection{LTAPM}
+  
+  Una especificación en TLA+ consiste de un módulo raíz que puede (transitivamente), importar otros módulos por extensión e instanciación con
+  sus respectivos parámetros. Cada módulo consiste en: parámetros (variables, o estados, y constantes sin interpretar), definiciones,
+  y teoremas que pueden tener su prueba. Un parámetro de un módulo puede ser una variable (estado), o una constante; en las fórmulas de TLA+, no se hace referencia explícita
+  a las variables, en cambio, se usan dos copias de una variable \textit{v}: \textit{v} y \textit{v'}, que hacen referencia a un valor antes, y después de la transición. 
+  TLAPS se ejecuta invocando a TLAPM en el módulo raíz e indicando qué pruebas chequear. (Verifying Safety Properties With the TLA+ Proof System).
+  \\
+  El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para
+  probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
+  \\
+  Cada obligación de prueba es independiente y puede ser probada por separado. Cuando los
+  backends no pueden encontrar una prueba en un límite razonable de tiempo, el sistema
+  informará cuál obligación es la que falló, junto con su contexto (falló, cancelada por el usuario, omitida) y objetivo de la prueba. El usuario debe
+  entonces determinar si falló debido a que depende de hechos o definiciones ocultas, o si el objetivo es
+  demasiado complejo y necesita ser refinado con otro nivel de prueba. Esto indica que pueden haber obligaciones que son ciertas, y que por una cuestión de \textit{timeout},
+  el backend las verifica como falsas.
+  \\
+  Si un backend encuentra una prueba de una obligación, es decir si la puede verificar,
+  genera una traza de la prueba realizada, llamada \textit{certificación de prueba}. LTAPM  mediará
+  la certificación de los scripts de prueba en un entorno lógico confiable, que en el diseño actual
+  es Isabelle/TLA+.
+  \\
+  Finalmente, luego de certificar todas las obligaciones de prueba posibles generadas por las pruebas
+  terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos. Primero, LTAPM  la
+  estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
+  obligaciones de pruebas terminales implican el teorema. Luego, LTAPM genera una prueba del teorema
+  usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos
+  seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.
+
+  \subsection{Backends}
+    \subsection{Isabelle}
+    
 \section{Casos de estudio (exitosos o no) de la herramienta}
 \section{Comparación con otras herramientas}
 \section{Caso de estudio elegido}
