@@ -128,6 +128,10 @@ Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utiliza
   
   La versión actualmente disponible TLAPS maneja casi toda la parte no temporal de TLA+, como así también el razonamiento temporal necesario para probar propiedades de 
   seguridad (safety) estándares, en particular, invariantes y simulación de transiciones, pero no para propiedades de vitalidad (liveness).
+  
+  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación,
+  se recomienda chequear instancias finitas con TLC. Esto usualmente detecta varios errores sencilla y rápidamente. 
+  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de una demostración. 
 
 
 \section{Aspectos técnicos de la herramienta}
@@ -189,7 +193,33 @@ Microsoft usó TLA+ para encontrar y resolver un \textit{bug} en el sistema de m
 
 
 \section{Comparación con otras herramientas}
+Para realizar la comparación con otras herramientas decidimos primero comparar TLA+ con otras herramienta ya conocida como Alloy,
+y luego abocarnos específicamente con TLAPS.
 
+  \subsection{TLA+}
+  TLA+ y Alloy poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular
+  que toma su herramienta analizadora a la  hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, 
+  esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos mas realistas presenta problemas. 
+  
+  Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
+  casi imposibles escribirlas en Alloy. 
+
+  \subsection{TLAPS}
+  Con respecto a TLAPS específicamente, las herramientas que encontramos como comparables son Isar, Focal y Coq.
+
+  Isar es un lenguaje de prueba declarativo, que corre sobre Isabelle, pero tiene diferencias significantes, que llevan a un estilo de desarrollo de pruebas diferente. 
+  Por ejemplo provee un acumulador para evitar referencias explícitas a los pasos de la prueba, lo cual es bueno para pruebas cortas, pero no tanto para demostraciones largas,
+  que son típicas a la hora de verificar algoritmos. Además como Isabelle esta diseñada para uso interactivo, los efectos de los comandos de Isar para demostraciones no son fácilmente 
+  predecibles, lo que estimula pruebas lineales en lugar de hacerlas jerárquicamente. 
+
+  El lenguaje Focal provee un conjunto de caracteristicas funcionales y orientadas a objetos, que permiten expresar formalmente una especificación, avanzando incrementalmente,
+  comprobando que la implementacion concuerda con la especificación y el diseño con los requerimientos. Es, esencialmente un subconjunto de TLA+, que incluye el desarrollo 
+  de demostraciones jerárquicamente.
+
+  Coq es un sistema asistente de demostraciones formales, que provee lenguaje formal para escribir definiciones matemáticas, ejecutar algoritmos y teoremas en conjunto,
+  con un ambiente para el desarrollo semi interactivo de demostraciones verificadas automáticamente.
+
+  Básicamente, TLAPS realiza una integración entre Isar y Coq, ya que utiliza Isabelle y Zenon como Backends.
 
 \section{Caso de estudio elegido}
 
