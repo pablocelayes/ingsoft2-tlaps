@@ -158,7 +158,7 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
 
   %   ¿esto hay que sacarlo o ampliar?
   %   R: Eso es la referencia al paper del cuál saqué la info :)
-  (Verifying Safety Properties With the TLA+ Proof System).
+  Referencia: (Verifying Safety Properties With the TLA+ Proof System).
   \\
   
   El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
@@ -239,9 +239,30 @@ y luego abocarnos específicamente a TLAPS.
   Básicamente, TLAPS realiza una integración entre las funcionalidades de  Isar y Coq, ya que utiliza Isabelle y Zenon como backends.
 
 \section{Caso de estudio elegido}
+
+%Referencia: http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html
+
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo: 
 El desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
+  \\
+En la Figura 2, podemos ver una especificación del algoritmo de Euclides escrita en TLA+.
+  \begin{figure}
+    \includegraphics[scale=0.27]{euclid}
+    \caption{Algoritmo de Euclides especificado en TLA+}   
+  \end{figure}
+\\
+Ahora bien, si nosotros quisiéramos corroborar la correctitud de la prueba ejecutando TLAPS, éste nos indicaría un error ya que los \textit{backends} fallarían al intentar demostrar la obligación de prueba. Ésto se debe a que TLAPS
+hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}. 
+\\
 
+Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
+\subitem \textbf{BY DEF} Init, InductiveInvariant
+Cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
+Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código, por:
+\subitem \textbf{BY} NumberAssumption \textbf{DEF} Init, InductiveInvariant
+\\
+
+Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la prueba.
 % Otras opciones:
 \section{Conclusiones particulares}
 
