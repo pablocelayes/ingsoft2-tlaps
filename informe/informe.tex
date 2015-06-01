@@ -12,7 +12,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
-\usepackage[T1]{fontenc}
+
 
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
@@ -38,7 +38,7 @@ Universidad Nacional de Córdoba}
 \begin{abstract}
 Analizamos el lenguaje de especificación de alto nivel TLA+ y sus herramientas.
 Nos enfocamos particularmente en \textit{TLA+ Proof System}, un entorno de verificación automática de pruebas formales.
-Estudiamos su contexto de creación, sus ventajas y desventajas y aplicaciones en la industria.
+Estudiamos su contexto de creación, sus características y aplicaciones en la industria.
 Comparamos el lenguaje y sus herramientas con otros similares e ilustramos su forma de uso con un ejemplo algorítmico sencillo.
 \end{abstract}
 %
@@ -57,12 +57,12 @@ Comparamos el lenguaje y sus herramientas con otros similares e ilustramos su fo
 \section{Objetivo de la herramienta}
 
 TLAPS es una herramienta que verifica mecánicamente la correctitud de pruebas escritas en TLA+.
-Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos.\cite{highlevel}
+Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos\cite{highlevel}.
 En general, una prueba de TLA+ es una colección de sentencias estructuradas jerárquicamente,
 donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
 El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir,
 que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
-y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.\cite{tlaps}
+y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados\cite{tlaps}.
 Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, entonces, como resultado
 de comprobar la prueba, TLAPS verifica que el teorema es cierto.
 
@@ -116,33 +116,22 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
 \end{figure}
 
   \textbf{LTAPM}: Una especificación en TLA+ consiste de un módulo raíz que puede (transitivamente), importar otros módulos por extensión e instanciación con
-  sus respectivos parámetros. Cada módulo consiste en:
-  \begin{itemize}
-   \item Parámetros (variables, o estados, y constantes sin interpretar)
-   \item Definiciones
-   \item Teoremas, que pueden tener su prueba
-  \end{itemize}
+  sus respectivos parámetros. Cada módulo consiste en: parámetros (variables, o estados, y constantes sin interpretar), definiciones, teoremas, que pueden tener su prueba.
+  
   Un parámetro de un módulo puede ser una variable (estado), o una constante; en las fórmulas de TLA+ no se hace referencia explícita a las variables, en cambio, se usan dos copias de una variable \textit{v}: \textit{v} y \textit{v'}, que hacen referencia a un valor antes, y después de la transición. 
   TLAPS se ejecuta invocando a TLAPM en el módulo raíz e indicando qué pruebas chequear. 
-  El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
-  Cada obligación de prueba es independiente y puede ser probada por separado. Cuando los backends no pueden encontrar una prueba en un límite razonable de tiempo, el sistema informará cuál obligación es la que falló, junto con su contexto (falló, cancelada por el usuario, omitida) y objetivo de la prueba.
-  El usuario debe entonces determinar si falló debido a que depende de hechos o definiciones ocultas, o si el objetivo es demasiado complejo y necesita ser refinado con otro nivel de prueba. Esto indica que pueden haber obligaciones que son ciertas, y que por una cuestión de \textit{timeout},
+  Luego TLAPM, genera \textit{obligaciones de prueba} para cada prueba terminal, o sea, las cosas que se tienen que corroborar, para probar la correctitud del teorema. Una vez generadas, invoca a los backends para que las verifiquen.
+  Si éstos no pueden encontrar una prueba en un límite razonable de tiempo, el sistema informará cuál obligación es la que falló, junto con su contexto (falló, cancelada por el usuario, omitida) y objetivo de la prueba.
+  El usuario debe entonces determinar la causa de la falla (debido a que depende de hechos o definiciones ocultas, o si el objetivo es demasiado complejo y necesita ser refinado con otro nivel de prueba). Esto indica que pueden haber obligaciones que son ciertas, y que por una cuestión de \textit{timeout},
   el backend las verifica como falsas.
-  Si un backend encuentra una prueba de una obligación, es decir si la puede verificar, genera una traza de la prueba realizada, llamada \textit{certificación de prueba}. LTAPM  mediará la certificación de los scripts de prueba en un entorno lógico confiable, que en el diseño actual es Isabelle/TLA+.
+  Si un backend puede verificar una obligación de prueba, genera una traza de la prueba realizada, llamada \textit{certificación de prueba}.
   Finalmente, luego de certificar todas las obligaciones de prueba posibles generadas por las pruebas
-  terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos. 
-  En conclusión, primero, LTAPM genera la estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
+  terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos: primero LTAPM genera la estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
   obligaciones de pruebas terminales implican el teorema. Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.\cite{verifyingsafety}
 
-  \subsection{Backends}
-\textbf{Isabelle} es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. 
-Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.\cite{verifyingsafety}
-
-\textbf{Zenon} es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
-basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables 
-en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida.\cite{zenon}
-
-\textbf{SMT} es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
+  Los backends que el TLAPM invoca son: \textbf{Isabelle} es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla\cite{verifyingsafety}.
+  \textbf{Zenon} es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
+  basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida\cite{zenon}. \textbf{SMT} es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
 
 \section{Casos de aplicación de la herramienta}
 Mencionamos a continuación algunos ejemplos de aplicación de las herramientas analizadas.
