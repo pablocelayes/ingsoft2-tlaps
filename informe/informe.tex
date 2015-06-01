@@ -81,18 +81,15 @@ TLA+ posee una interfaz gráfica (\textbf{Toolbox}) desde la cual trabajar con l
     \item El chequeador de modelos \textbf{TLC} construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
 	  Genera un conjunto de estados iniciales que satisfacen la especificación y a continuación realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidas. 
 	  La ejecución se detiene cuando todas las transiciones de estado conducen a estados conocidos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
-	  TLC permite declarar simetrías del modelo para evitar el fenómeno de \textit{explosión combinatoria} y paraleliza el paso de exploración de estado para acelerarlo ejecutándolo de modo distribuido.
 	  Dada la alta expresividad de TLA+, ningún chequeador de modelos puede manejar todas sus especificaciones. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
     \item \textbf{TLA+ Proof System} es una plataforma que extiende a TLA+ para el desarrollo y verificación mecánica de demostraciones. 
 	  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion. Una demostración se traduce en un conjunto de pruebas independientes, que luego se intentan chequear usando una colección de verificadores que incluye demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
-	  La versión actual de TLAPS maneja casi toda la parte no temporal de TLA+ y el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar (como invariantes y simulación de transiciones), pero no para propiedades de vitalidad (\textit{liveness}).
+	  TLAPS maneja casi toda la parte no temporal de TLA+ y el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar (como invariantes y simulación de transiciones), pero no para propiedades de vitalidad (\textit{liveness}).
 	  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación
 	  se recomienda chequear instancias finitas con TLC para detectar errores rápidamente. 
-	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de la demostración. 
+	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de la demostración.
+	  De aquí en adelante nos enfocaremos en esta última herramienta. 
   \end{itemize}
-  
-  De aquí en adelante nos enfocaremos en esta última herramienta. 
-
 
 \section{Aspectos técnicos de la herramienta}
 La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{backends} que éste invoca: Isabelle, Zenon y SMT (Satisfiability Modulo Theories).
@@ -185,7 +182,7 @@ Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la p
 \section{Conclusiones particulares}
 
 Como conclusión, podemos decir que TLA+ es lo suficientemente simple para ser rápidamente comprendido, gracias a su notación matématica simple (acciones, conjuntos y funciones), 
-pero a la vez permite expresar nociones matemáticas mas complejas como no determinismo y equitatividad. Sumado a esto, el \textbf{Toolbox} facilita al usuario el manejo integrado de todo el conjunto de herramientas integradamente. 
+pero a la vez permite expresar nociones matemáticas mas complejas como no determinismo y equitatividad. Sumado a esto, el \textbf{Toolbox} facilita al usuario el manejo integrado de todo el conjunto de herramientas. 
 
 TLAPS, al ser una herramienta específica dedicada a la verificación de correctitud de demostraciones, le otorga a TLA+ una ventaja comparativa con respecto a los demás \textit{model checkers}, aunque es una herramienta que al ser tan específica, no es tan utilizada en el general de los casos a los cuales aplicar un \textit{model checker}.
 
