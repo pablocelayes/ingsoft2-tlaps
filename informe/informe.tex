@@ -64,14 +64,14 @@ En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de
 \section{Objetivo de la herramienta}
 
 TLAPS es una herramienta que verifica mecánicamente la correctitud de pruebas escritas en TLA+.
-Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos.
+Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos.\cite{highlevel}
 
 En general, una prueba de TLA+ es una colección de sentencias estructuradas jerárquicamente,
 donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
 
 El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir,
 que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
-y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.
+y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.\cite{tlaps}
 
 Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, entonces, como resultado
 de comprobar la prueba, TLAPS verifica que el teorema es cierto.
@@ -156,11 +156,6 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
   Un parámetro de un módulo puede ser una variable (estado), o una constante; en las fórmulas de TLA+ no se hace referencia explícita a las variables, en cambio, se usan dos copias de una variable \textit{v}: \textit{v} y \textit{v'}, que hacen referencia a un valor antes, y después de la transición. 
   TLAPS se ejecuta invocando a TLAPM en el módulo raíz e indicando qué pruebas chequear. 
 
-  %   ¿esto hay que sacarlo o ampliar?
-  %   R: Eso es la referencia al paper del cuál saqué la info :)
-  Referencia: (Verifying Safety Properties With the TLA+ Proof System).
-  \\
-  
   El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
   \\
   
@@ -175,23 +170,20 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
   Finalmente, luego de certificar todas las obligaciones de prueba posibles generadas por las pruebas
   terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos. 
   
-%   chequear coherencia de esta oración:
+
   Primero, LTAPM genera la estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
   obligaciones de pruebas terminales implican el teorema.
   \\
   
-  Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.
+  Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.\cite{verifyingsafety}
 
   \subsection{Backends}
-  \subsection*{Zenon}
-	Es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseñoo es resolver problemas simples de manera rápida.
-	(Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs)
   \subsection*{Isabelle}    
-	Es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.
-	(Verifying Safety Properties With the TLA+ Proof System).
+	Es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.\cite{verifyingsafety}
+  \subsection*{Zenon}
+	Es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseñoo es resolver problemas simples de manera rápida.\cite{zenon}
   \subsection*{SMT}
-	Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.
-	(Formal Techniques for Distributed Systems).
+	Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
 
 \section{Casos de aplicación de la herramienta}
 
@@ -241,7 +233,7 @@ y luego abocarnos específicamente a TLAPS.
       de demostraciones jerárquicamente.
 
       \item
-      \textbf{Coq} es un sistema asistente de demostraciones formales, que provee lenguaje formal para escribir definiciones matemáticas, ejecutar algoritmos y teoremas en conjunto, con un ambiente para el desarrollo semi-interactivo de demostraciones verificadas automáticamente.
+      \textbf{Coq} es un sistema asistente de demostraciones formales, que provee un lenguaje formal para escribir definiciones matemáticas, ejecutar algoritmos y teoremas en conjunto, con un ambiente para el desarrollo semi-interactivo de demostraciones verificadas automáticamente.
 
     \end{itemize}
   
@@ -249,10 +241,9 @@ y luego abocarnos específicamente a TLAPS.
 
 \section{Caso de estudio elegido}
 
-%Referencia: http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html
 
-Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo: 
-El desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
+Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
+el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
   \\
 En la Figura 2, podemos ver una especificación del algoritmo de Euclides escrita en TLA+.
   \begin{figure}
@@ -265,7 +256,7 @@ hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como ident
 \\
 
 Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
-\subitem \textbf{BY DEF} Init, InductiveInvariant
+\subitem \textbf{BY DEF} Init, InductiveInvariant\\
 Cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
 Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código, por:
 \subitem \textbf{BY} NumberAssumption \textbf{DEF} Init, InductiveInvariant
@@ -296,12 +287,53 @@ Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engine
 
 Addison-Wesley. ISBN 0-321-14306-X, 2002
 
+\bibitem{highlevel}
+Brannon Batson, Leslie Lamport
+
+High-Level Specifications: Lessons from Industry
+
+\bibitem{tlaps}
+Kaustuv Chaudhuri ,Damien Doligez, Leslie Lamport, Stephan Merz
+
+A TLA + Proof System
+
+\bibitem{verifyingsafety}
+Kaustuv Chaudhuri, Damien Doligez, Leslie Lamport, Stephan Merz
+
+Verifying Safety Properties With the TLA+ Proof System
+
+Fifth International Joint Conference on Automated Reasoning - IJCAR 2010, Jul 2010, Edinburgh, United Kingdom
+
+\bibitem{zenon}
+Richard Bonichon, David Delahaye, Damien Doligez
+
+Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs
+
+Paris, France
+
+\bibitem{formaltech}
+Martín Abadi, Frank McSherry, Derek G. Murray, and Thomas L. Rodeheffer
+
+Formal Techniques for Distributed Systems
+
+Joint IFIP WG 6.1 International Conference, FMOODS/FORTE 2013
+Held as Part of the 8th International Federated Conference
+on Distributed Computing Techniques, DisCoTec 2013
+Florence, Italy, June 2013, Proceedings
+
 \bibitem {amazon}
 Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff 
 
 How Amazon Web Services Uses Formal Methods
 
 Communications of the ACM, Vol. 58 No. 4, Pages 66-73
+
+\bibitem{example}
+Microsoft Research - Inria
+
+\url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}
+
+JOINT CENTRE
 
 \bibitem {xbox360}
 Lamport, Leslie 
