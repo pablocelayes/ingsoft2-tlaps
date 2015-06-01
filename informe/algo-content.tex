@@ -1,0 +1,48 @@
+\noindent \rule[0.5ex]{0.28\columnwidth}{1pt} Module $Algoritmo\, de\, Euclides$
+\rule[0.5ex]{0.28\columnwidth}{1pt}
+
+\noindent EXTENDS $Integers$
+
+\noindent $p\,|\, q\,\triangleq\exists\; d\,\,\in\,\,1..q\,:\, q\,=\, p*d$
+
+\noindent $Divisors(q)\triangleq\{d\;\in\;1..q\,:d\,|\, q\}$
+
+\noindent $Maximum(S)\triangleq$ CHOOSE$\; x\in\, S\,:\forall\; y\in\, S\,:\; x\geq y$
+
+\noindent $GCD(p,q)\triangleq Maximum(Divisors(p)\,\cap\, Divisors(q))$
+
+\noindent $Number\triangleq Nat-\{0\}$
+
+\noindent CONSTANTS $M,\; N$
+
+\noindent VARIABLES $x,\; y$
+
+\noindent $Init\triangleq(x=M)\wedge(y=N)$
+
+\noindent $Next\triangleq\vee\wedge x<y$
+
+\noindent ~~~~~~~~~~~~~~$\wedge\, y'=y-x$
+
+\noindent ~~~~~~~~~~~~~~$\wedge\, x'=x$
+
+\noindent ~~~~~~~~~~~$\vee\wedge y<x$
+
+\noindent ~~~~~~~~~~~~~~$\wedge\, x'=x-y$
+
+\noindent ~~~~~~~~~~~~~~$\wedge\, y'=y$
+
+\noindent $Spec\triangleq Init\wedge\square[Next]_{\left\langle x,y\right\rangle }$
+
+\noindent $ResultCorrect\triangleq(x=y)\Rightarrow x=GCD(M,N)$
+
+\noindent $InductiveInvariant\triangleq\wedge\, x\in\, Number$
+
+\noindent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\wedge\, y\in\, Number$
+
+\noindent ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\wedge\, GCD(x,y)=GCD(M,N)$
+
+\noindent ASSUME $NumberAssumption\triangleq M\in\, Number\wedge N\in\, Number$
+
+\noindent THEOREM $InitProperty\triangleq Init\Rightarrow InductiveInvariant$
+
+\noindent OBVIOUS
