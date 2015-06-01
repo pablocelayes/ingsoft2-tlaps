@@ -12,7 +12,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
-\usepackage[T1]{fontenc}
+% \usepackage[T1]{fontenc}
 
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
@@ -168,13 +168,10 @@ Se desarrolló entre 2001 y 2006, y se usó activamente TLA+ para especificació
 Para realizar la comparación con otras herramientas decidimos primero comparar TLA+ con otra herramienta ya conocida como Alloy,
 y luego abocarnos específicamente a TLAPS.
 
-  \subsection{TLA+}
-  TLA+ y Alloy poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular que toma su herramienta analizadora a la hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos más realistas presenta problemas. 
-  Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
-  casi imposibles de escribir en Alloy.
-
-  \subsection{TLAPS}
-  Con respecto a TLAPS específicamente, las herramientas que encontramos como comparables son Isar, Focal y Coq.
+\textbf{TLA+} y \textbf{Alloy} poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular que toma su herramienta analizadora a la hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos más realistas presenta problemas. 
+Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
+casi imposibles de escribir en Alloy.
+Con respecto a TLAPS específicamente, las herramientas que encontramos como comparables son Isar, Focal y Coq.
     \begin{itemize}
       \item 
       \textbf{Isar} es un lenguaje de prueba declarativo, que corre sobre Isabelle, pero tiene diferencias significativas, que llevan a un estilo de desarrollo de pruebas diferente. Por ejemplo, provee un acumulador para evitar referencias explícitas a los pasos de la prueba, lo cual es bueno para pruebas cortas, pero no tanto para demostraciones largas, que son típicas a la hora de verificar algoritmos. Además como Isabelle está diseñada para uso interactivo, los efectos de los comandos de Isar para demostraciones no son fácilmente 
@@ -192,7 +189,6 @@ y luego abocarnos específicamente a TLAPS.
   Básicamente, TLAPS realiza una integración entre las funcionalidades de  Isar y Coq, ya que utiliza Isabelle y Zenon como backends.
 
 \section{Caso de estudio elegido}
-
 
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
 el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
@@ -212,20 +208,15 @@ Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la p
 % Otras opciones:
 \section{Conclusiones particulares}
 
-Buen balance entre expresivo y chequeable.
+Como conclusión, podemos decir que TLA+ es lo suficientemente simple para ser rápidamente comprendido, gracias a su notación matématica simple (acciones, conjuntos y funciones), 
+pero a la vez permite expresar nociones matemáticas mas complejas como no determinismo y equitatividad. Sumado a esto, el \textbf{Toolbox} facilita al usuario el manejo integrado de todo el conjunto de herramientas integradamente. 
 
-En la industria parece tener más aceptación el model checking que la verificación de pruebas.
+TLAPS, al ser una herramienta específica dedicada a la verificación de correctitud de demostraciones, le otorga a TLA+ una ventaja comparativa con respecto a los demás \textit{model checkers}, aunque es una herramienta que al ser tan específica, no es tan utilizada en el general de los casos a los cuales aplicar un \textit{model checker}.
 
-Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
+Al compararlo con otras herramientas similares, TLAPS resulta como una buena integración de los distintos \textit{backends}, tomando las ventajas de cada uno de ellos a la hora de verificar la correctitud, a diferencia de las otras herramientas que utilizan un único \textit{backend}.
 
-Basic TLA+ is simple enough to be quickly understood
-(actions, sets and functions): its standard mathematical
-notation helps.
+Con respecto al uso en la industria, aparece como un buen ejemplo de cooperación industria-academia muy beneficiosa entre Microsoft e INRIA, además TLA+ tiene una buena aceptación, pero es dificil encontrar casos en los que se utilice TLAPS.
 
-Complex notions (e.g. fairness, non-determinism) are
-expressible and accessible.
-
-Tools (TLC) are essential to our success
 
 %
 % ---- Bibliography ----
