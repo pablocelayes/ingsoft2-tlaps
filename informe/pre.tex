@@ -1,0 +1,155 @@
+%\documentclass[a4paper,12pt,spanish,oneside]{book}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{verbatim}
+\usepackage{makeidx}
+% \usepackage{stmaryrd}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+%\usepackage[latin1]{inputenc}
+%\usepackage{t1enc}
+
+\newlength{\ancho}
+\setlength{\ancho}{\paperwidth}
+\addtolength{\ancho}{-2in}
+\textwidth=\ancho
+%\topmargin=0pt
+%\headsep=0pt
+%\headheight=0pt
+%\evensidemargin=0mm
+%\oddsidemargin=0mm
+
+%
+%Caracteres
+
+\newcommand{\Baire}{\mathcal N}
+\newcommand{\Cantor}{\mathcal C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\N}{\mathbb N}
+\newcommand{\I}{\mathbb I}
+\newcommand{\Qvar}{\mathcal Q}
+\newcommand{\K}{\mathcal K}
+\newcommand{\T}{\mathcal T}
+\newcommand{\U}{\mathcal U}
+\newcommand{\F}{\mathcal F}
+
+%Varias
+\newcommand{\subp}{\mathrm{M}}
+\newcommand{\prob}{\mathrm{P}}
+\newcommand{\graf}{\mathrm{graf}}
+\newcommand{\diam}{\mathrm{diam}}
+\newcommand{\B}{\mathbf{B}}
+\newcommand{\longi}{\mathrm{long}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\tends}{\rightarrow}
+
+%
+%	Estilo
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\remark}[1]{\marginpar{\tiny{#1}}}
+\renewcommand{\eqref}[1]{(\ref{#1})}
+\newcommand{\teoref}[1]{teorema \ref{#1}}
+\newcommand{\propref}[1]{proposicin \ref{#1}}
+\newcommand{\lemaref}[1]{lema \ref{#1}}
+\newcommand{\cororef}[1]{corolario \ref{#1}}
+
+%
+% 	Logicas
+\newcommand{\true}{\mathsf{T}}
+\newcommand{\sat}{\vDash}
+\newcommand{\nsat}{\nvDash}
+\newcommand{\sii}{\Leftrightarrow}
+\newcommand{\logeq}{\Leftrightarrow}
+\newcommand{\ent}{\rightarrow}
+\newcommand{\tne}{\Leftarrow}
+\newcommand{\iso}{\cong}		
+\newcommand{\func}{\rightarrow}
+\newcommand{\Func}{\longrightarrow}
+\newcommand{\comp}{\circ}
+\newcommand{\y}{\wedge}
+\newcommand{\Y}{\bigwedge}
+\renewcommand{\o}{\vee}
+\newcommand{\abst}[1]{\llbracket #1\rrbracket}
+
+% USO: \equ{i}{x} ---> p_i(x) = q_i(x)
+\newcommand{\equ}[2]{p_{#1}(\vec{#2})=q_{#1}(\vec{#2})}
+
+% USO: \quasiid{i}{x}
+%\newcommand{\quasiid}[2]{\forall \vec{#2}(\Y_{#1=1}^n \equ{#1}{#2}) \ent \equ{}{#2}}
+\newcommand{\quasiid}[2]{\forall \vec{#2}([(\Y_{#1=1}^n p_#1 = q_#1) \ent p = q]\vec{#2}}
+
+% USO: \quasiid{n}
+%\newcommand{\qi}[1]{\mathrm{qid}(p_1,q_1,\ldots,p_#1,q_#1,p,q)}
+\newcommand{\qi}[1]{\mathrm{qid}(\{(p_i,q_i)\}_{i=1}^#1,p,q)}
+
+%quasivariedad generada
+\newcommand{\qgen}[1]{\mathrm{Q}(#1)}
+
+%congruencia identidad
+\newcommand{\id}[1]{\Delta^#1}
+
+%
+% Conjuntos
+\newcommand{\union}{\ensuremath{\cup}}
+\newcommand{\Union}{\ensuremath{\bigcup}}
+\newcommand{\included}{\ensuremath{\subseteq}}
+\newcommand{\includes}{\ensuremath{\supseteq}}
+\newcommand{\notincluded}{\ensuremath{\not\subseteq}}
+\newcommand{\inters}{\ensuremath{\cap}}
+\newcommand{\Inters}{\ensuremath{\bigcap}}
+\newcommand{\en}{\ensuremath{\in}}
+\newcommand{\foral}{\ensuremath{\forall}}
+\newcommand{\exi}{\ensuremath{\exists}}
+\newcommand{\subi}[1]{\ensuremath{_{#1}}}
+\newcommand{\compl}[1]{#1^c}
+\newcommand{\f}[3]{{#1:#2\rightarrow#3}}
+\newcommand{\vacio}{\emptyset}
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\Pfin}{P^{<\omega}}
+
+%
+%	Griegas
+\renewcommand{\th}{\theta}
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\newcommand{\g}{\gamma}
+\newcommand{\Ga}{\Gamma}
+\renewcommand{\d}{\delta}
+\newcommand{\eps}{\epsilon}
+\newcommand{\e}{\varepsilon}
+\newcommand{\vp}{\varphi}
+\newcommand{\sig}{\sigma}
+\newcommand{\Sig}{\Sigma}
+\renewcommand{\l}{\lambda}
+\newcommand{\La}{\Lambda}
+\newcommand{\om}{\omega}
+\newcommand{\Om}{\Omega}
+\newcommand{\z}{\zeta}
+
+%
+%	Entornos de redaccion
+\newenvironment{dem}{\begin{proof}[Prueba]}{\end{proof}}
+\newenvironment{ideadem}{\begin{proof}[Idea de prueba]}{\end{proof}}
+\newenvironment{sol}{\begin{proof}[Solución]}{\end{proof}}
+%
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+%
+\theoremstyle{remark}
+\newtheorem{ejem}{Ejemplo}
+\newtheorem{nota}{Nota}
+\newtheorem{observ}{Observación}
+%
+\theoremstyle{plain}
+\newtheorem{lem}{Lema}
+\newtheorem{af}[lem]{Afirmación}
+\newtheorem{teo}[lem]{Teorema}
+\newtheorem{coro}[lem]{Corolario}
+\newtheorem{prop}[lem]{Proposición}
+

@@ -5,11 +5,6 @@
 %
 \documentclass[spanish]{llncs}
 %
-
-
-
-
-
 \usepackage{standalone}
 \usepackage{pdfpages}
 \usepackage{graphicx}
@@ -28,7 +23,7 @@
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{amssymb}
-
+\usepackage{float}
 %
 \begin{document}
 %
@@ -47,33 +42,19 @@ Universidad Nacional de Córdoba}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-Agente: Cuando yo le diga hola señor Thompson, usted dice, hola
-
-Homero: ¡Bien!
-
-Agente: ¡¡Hola señor Thompson!!
-
-Homero: ... ...
-
-Agente: ¡¡Recuerde!! ¡su nombre ahora es Homero Thompson!
-
-Homero: ¡¡Enterado!!
-
-Agente: ¡¡Hola señor Thompson!!
-
-Homero: (al otro agente)¡¡Creo que le habla a usted!!!. \dots
-
-\keywords{model checking, proof system, recibirse}
+Analizamos el lenguaje de especificación de alto nivel TLA+ y sus herramientas.
+Nos enfocamos particularmente en \textit{TLA+ Proof System}, un entorno de verificación automática de pruebas formales.
+Estudiamos su contexto de creación, sus ventajas y desventajas y aplicaciones en la industria.
+Comparamos el lenguaje y sus herramientas con otros similares e ilustramos su forma de uso con un ejemplo algorítmico sencillo.
 \end{abstract}
 %
 
 \section{Contexto de creación de la herramienta}
 
- En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema. En principio, un sistema se podía describir con una sola fórmula de lógica temporal. En la práctica no era así. La lógica temporal de Pnueli era ideal para describir ciertas propiedades de los sistemas, pero poco adecuada para muchas otras. Es por ello que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli}
-
-A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions, una variante simple de la lógica temporal de Pnueli). TLA facilita la tarea de describir un sistema completo en una sola fórmula. La mayor parte de una especificación TLA se compone de Matemática ordinaria, no temporal. La lógica temporal sólo juega un rol significativo en la descripción de aquellas propiedades para las que realmente es buena. \cite{specsys}
-
-En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof System (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. El proyecto cuenta con una activa lista de mail para discusiones relativas a su uso y un sistema público de seguimiento de \textit{bugs}.
+ En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema, lo cual en principio podía hacerse en una sola fórmula pero no resultaba así en la práctica. La lógica temporal de Pnueli era ideal para describir ciertas propiedades, pero poco adecuada para muchas otras, por lo que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli} A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions), una variante simple de la lógica temporal de Pnueli que facilita la descripción de un sistema completo en una sola fórmula usando mayormente Matemática ordinaria (no temporal) y reservando la lógica temporal sólo para aquellas propiedades en las que realmente es buena. \cite{specsys}
+ 
+ En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof System (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. 
+ El proyecto continúa en desarrollo activo y cuenta con una activa lista de mail y un sistema público de seguimiento de \textit{bugs}.
 
 % Comentar repercusiones, cómo es que termina en Microsoft y cómo se relacione esto con la evolución del Toolbox y sus aplicaciones en la industria.
 
@@ -83,14 +64,11 @@ En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de
 
 TLAPS es una herramienta que verifica mecánicamente la correctitud de pruebas escritas en TLA+.
 Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos.\cite{highlevel}
-
 En general, una prueba de TLA+ es una colección de sentencias estructuradas jerárquicamente,
 donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
-
 El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir,
 que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
 y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados.\cite{tlaps}
-
 Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, entonces, como resultado
 de comprobar la prueba, TLAPS verifica que el teorema es cierto.
 
@@ -99,126 +77,98 @@ de comprobar la prueba, TLAPS verifica que el teorema es cierto.
 TLA+ es una herramienta de alto nivel para la descripción de los sistemas, especialmente sistemas concurrentes asíncronos y distribuidos. 
 Fue diseñado para ser simple, muy expresivo, y permitir una formalización directa del razonamiento de aserciones tradicional.
 Se fundamenta en la idea de que la mejor manera de describir formalmente es con matemática simple, y que un lenguaje de especificación debe contener lo menos posible más allá de lo que se necesita para escribir matemática simple con precisión.
-
 Para cumplir con el objetivo de formalizar el razonamiento de aserciones, TLA+ está basado en TLA (\textit{Temporal Logic of Actions}), una variante simple de la lógica temporal lineal.
 
 % itemizar esto, mencionar toolbox
-TLA+ utiliza a PlusCal como lenguaje de especificación.
-Para el modelado se basa en el modelo Standard.
-TLC es quien se encarga de verificar la corrección de los modelos.
-Finalmente, TLA+ Proof System es un asistente de pruebas, para verificar las especificaciones dadas en TLA+. 
+TLA+ utiliza a \textbf{PlusCal} como lenguaje de especificación.
+Para el modelado se basa en el \textbf{Modelo Standard}.
+\textbf{TLC} es quien se encarga de verificar la corrección de los modelos.
+Finalmente, \textbf{TLA+ Proof System} es un asistente de pruebas, para verificar las especificaciones dadas en TLA+. 
 En esta herramienta específica es donde nos enfocaremos el resto del documento. 
-
-
-Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utilizar todas estas herramientas de manera sencilla e integrada.
-
-  \subsection{PlusCal}
-  TLA+ utiliza PlusCal como lenguaje en el cual se debe realizar la especificación.
-  PlusCal es un lenguaje algorítmico que, a primera vista, parece un lenguaje de programación imperativo pequeño. Sin embargo, una expresión PlusCal puede ser cualquier expresión de TLA+, lo que significa cualquier cosa que pueda ser expresada con matemática. Esto hace a PlusCal mucho más expresivo que cualquier lenguaje de programación.
-  Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
-  Fue diseñado para  reemplazar al  pseudocódigo, conservando su sencillez y proporcionando al mismo tiempo un lenguaje formalmente definido y verificable, en el cual las personas sin tantos conocimientos profundos en matemática pueden definir su especificacion de forma sencilla y facil de entender,
-  para luego traducirla a TLA+ usando la herramienta.
-
-  \subsection{Modelo STANDARD}
-  En un modelo \textit{Standard}, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es una secuencia de estados y un estado es una asignación de valores a las variables.
-  En este modelo, un evento, también llamado un paso, es la transición de un estado a otro en un comportamiento.
-
-  \subsection{TLC}
-  El chequeador de modelos TLC construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
-  Genera un conjunto de estados iniciales que satisfacen la especificación y a continuación realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidas. 
-  La ejecución se detiene cuando todas las transiciones de estado conducen a estados que ya han sido descubiertos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, 
-  reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
+Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utilizar todas estas herramientas de manera sencilla e integrada, llamada \textbf{Toolbox}.
   
-  TLC ofrece un método de declarar simetrías del modelo para evitar el fenómeno de \textit{explosión combinatoria}.
-  También paraleliza el paso de la exploración del estado, y se puede ejecutar en modo distribuido para repartir la carga de trabajo a través de un gran número de computadoras.
-  
-  TLA+ es un ejemplo de lenguaje de mucha expresividad, puede ser fácilmente utilizado para especificar un programa que acepte una máquina de Turing arbitraria como entrada y puede determinar si se detendrá o no.
-  Ningún chequeador de modelos puede manejar todas las especificaciones TLA+. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
+  \begin{itemize}
+    \item TLA+ utiliza \textbf{PlusCal} como lenguaje en el cual se debe realizar la especificación.
+	  PlusCal es un lenguaje algorítmico que, a primera vista, parece un lenguaje de programación imperativo pequeño. Sin embargo, una expresión PlusCal puede ser cualquier expresión de TLA+, lo que significa cualquier cosa que pueda ser expresada con matemática. Esto hace a PlusCal mucho más expresivo que cualquier lenguaje de programación.
+	  Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
+	  Fue diseñado para  reemplazar al  pseudocódigo, conservando su sencillez y proporcionando al mismo tiempo un lenguaje formalmente definido y verificable, en el cual las personas sin tantos conocimientos profundos en matemática pueden definir su especificacion de forma sencilla y facil de entender,
+	  para luego traducirla a TLA+ usando la herramienta.
+    \item En un \textbf{Modelo Standard}, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es una secuencia de estados y un estado es una asignación de valores a las variables.
+	  En este modelo, un evento, también llamado un paso, es la transición de un estado a otro en un comportamiento.
+    \item El chequeador de modelos \textbf{TLC} construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
+	  Genera un conjunto de estados iniciales que satisfacen la especificación y a continuación realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidas. 
+	  La ejecución se detiene cuando todas las transiciones de estado conducen a estados que ya han sido descubiertos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, 
+	  reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
+	  TLC ofrece un método de declarar simetrías del modelo para evitar el fenómeno de \textit{explosión combinatoria}.
+	  También paraleliza el paso de la exploración del estado, y se puede ejecutar en modo distribuido para repartir la carga de trabajo a través de un gran número de computadoras.
+	  TLA+ es un ejemplo de lenguaje de mucha expresividad, puede ser fácilmente utilizado para especificar un programa que acepte una máquina de Turing arbitraria como entrada y puede determinar si se detendrá o no.
+	  Ningún chequeador de modelos puede manejar todas las especificaciones TLA+. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
+    \item \textbf{TLA+ Proof System}, el sistema de prueba de TLA+, es una plataforma que extiende a TLA+, para el desarrollo y verificación mecánica de demostraciones. 
+	  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion.
+	  La herramienta traduce una demostración en un conjunto de pruebas independientes, y llama a una colección de verificadores que se encargan de chequearlas, 
+	  que incluyen demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
+	  La versión actualmente disponible TLAPS maneja casi toda la parte no temporal de TLA+, como así también el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar, en particular invariantes y simulación de transiciones, pero no para propiedades de vitalidad (\textit{liveness}).
+	  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación,
+	  se recomienda chequear instancias finitas con TLC. Esto usualmente detecta varios errores sencilla y rápidamente. 
+	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de una demostración. 
+  \end{itemize}  
 
-  \subsection{TLA+ Proof System}
-  TLAPS, el sistema de prueba de TLA+, es una plataforma que extiende a TLA+, para el desarrollo y verificación mecánica de demostraciones. 
-  
-  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion.
-  
-  La herramienta traduce una demostración en un conjunto de pruebas independientes, y llama a una colección de verificadores que se encargan de chequearlas, 
-  que incluyen demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
-  
-  La versión actualmente disponible TLAPS maneja casi toda la parte no temporal de TLA+, como así también el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar, en particular invariantes y simulación de transiciones, pero no para propiedades de vitalidad (\textit{liveness}).
-  
-  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación,
-  se recomienda chequear instancias finitas con TLC. Esto usualmente detecta varios errores sencilla y rápidamente. 
-  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de una demostración. 
-
-  
 \section{Aspectos técnicos de la herramienta}
-
 La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{backends} que éste invoca: Isabelle, Zenon y SMT (Satisfiability Modulo Theories).
 
-\begin{figure}
+\begin{figure}[H]
   \includegraphics[scale=0.4]{esquema-informe-ingsoft2}
   \caption{Arquitectura general del entorno de pruebas TLAPS}
 \end{figure}
 
-  
-  \subsection{LTAPM}
-  
-  Una especificación en TLA+ consiste de un módulo raíz que puede (transitivamente), importar otros módulos por extensión e instanciación con
+  \textbf{LTAPM}: Una especificación en TLA+ consiste de un módulo raíz que puede (transitivamente), importar otros módulos por extensión e instanciación con
   sus respectivos parámetros. Cada módulo consiste en:
-
   \begin{itemize}
-   \item parámetros (variables, o estados, y constantes sin interpretar)
-   \item definiciones
-   \item teoremas, que pueden tener su prueba
+   \item Parámetros (variables, o estados, y constantes sin interpretar)
+   \item Definiciones
+   \item Teoremas, que pueden tener su prueba
   \end{itemize}
-
   Un parámetro de un módulo puede ser una variable (estado), o una constante; en las fórmulas de TLA+ no se hace referencia explícita a las variables, en cambio, se usan dos copias de una variable \textit{v}: \textit{v} y \textit{v'}, que hacen referencia a un valor antes, y después de la transición. 
   TLAPS se ejecuta invocando a TLAPM en el módulo raíz e indicando qué pruebas chequear. 
-
   El siguiente paso del LTAPM, es generar \textit{obligaciones de prueba} para cada prueba terminal, es decir, las cosas que se tienen que demostrar, o corroborar, para probar la correctitud del teorema. Una vez generadas las obligaciones de prueba, organiza la ejecución de los backends para que las verifiquen.
-  \\
-  
   Cada obligación de prueba es independiente y puede ser probada por separado. Cuando los backends no pueden encontrar una prueba en un límite razonable de tiempo, el sistema informará cuál obligación es la que falló, junto con su contexto (falló, cancelada por el usuario, omitida) y objetivo de la prueba.
   El usuario debe entonces determinar si falló debido a que depende de hechos o definiciones ocultas, o si el objetivo es demasiado complejo y necesita ser refinado con otro nivel de prueba. Esto indica que pueden haber obligaciones que son ciertas, y que por una cuestión de \textit{timeout},
   el backend las verifica como falsas.
-  \\
-  
   Si un backend encuentra una prueba de una obligación, es decir si la puede verificar, genera una traza de la prueba realizada, llamada \textit{certificación de prueba}. LTAPM  mediará la certificación de los scripts de prueba en un entorno lógico confiable, que en el diseño actual es Isabelle/TLA+.
-  \\
-  
   Finalmente, luego de certificar todas las obligaciones de prueba posibles generadas por las pruebas
   terminales, se procede a certificar el teorema en sí, en un proceso de dos pasos. 
-  
-
-  Primero, LTAPM genera la estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
-  obligaciones de pruebas terminales implican el teorema.
-  \\
-  
-  Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.\cite{verifyingsafety}
+  En conclusión, primero, LTAPM genera la estructura de un lema (y sus pruebas en Isabelle/TLA+) que establece simplemente que la colección de
+  obligaciones de pruebas terminales implican el teorema. Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.\cite{verifyingsafety}
 
   \subsection{Backends}
-  \subsection*{Isabelle}    
-	Es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.\cite{verifyingsafety}
-  \subsection*{Zenon}
-	Es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseñoo es resolver problemas simples de manera rápida.\cite{zenon}
-  \subsection*{SMT}
-	Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
+\textbf{Isabelle} es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. 
+Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.\cite{verifyingsafety}
+
+\textbf{Zenon} es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
+basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables 
+en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida.\cite{zenon}
+
+\textbf{SMT} es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
 
 \section{Casos de aplicación de la herramienta}
+Mencionamos a continuación algunos ejemplos de aplicación de las herramientas analizadas.
+Fue difícil encontrar un ejemplo de la industria donde se use el \textit{Proof System}, el enfoque más habitual resulta ser usar PlusCal y TLA+ para especificar el diseño del sistema y las propiedades deseadas (generalmente de \textit{safety} o \textit{liveness}), y luego usar el \textit{model checker} TLC para intentar asegurar que no existan trazas de ejecución que violen las propiedades esperadas.
 
-
-\subsection{Amazon}
-\textit{Amazon Web Services} utiliza TLA+ desde 2011. Haciendo \textit{model checking} sobre TLA+ se han descubierto bugs
+\textbf{Amazon}: \textit{Amazon Web Services} utiliza TLA+ desde 2011. Haciendo \textit{model checking} sobre especificaciones en TLA+ se han descubierto bugs
 en DynamoDB, S3, EBS, y en un \textit{lock manager} interno distribuído.
-
-Algunos bugs requirieron trazas de 35 pasos para ser detectados. También se ha usado model checking para verificar optimizaciones agresivas.
-
+Muchos de los bugs encontrados eran críticos pero muy sutiles, requiriendo algunos trazas de hasta 35 pasos para ser detectados.
+También se ha usado model checking para verificar optimizaciones agresivas.
 Además, las especificaciones TLA+ han resultado valiosas como documentación y ayudas de diseño.
-\cite{amazon}
+Inicialmente se intentó trabajar con Alloy, pero no resulto suficientemente expresivo.
+Se ha encontrado además que TLA+ es también muy práctico para modelado de datos y diseño de propiedades de \textit{schemas}. \cite{amazon}
 
-\subsection{XBOX 360}
-Microsoft usó TLA+ para encontrar y resolver un \textit{bug} en el sistema de memoria de la consola \textit{XBOX 360}.
-\cite{xbox360}
+\textbf{XBOX 360}: Microsoft usó TLA+ para encontrar y resolver un \textit{bug} en el sistema de memoria de la consola \textit{XBOX 360}. \cite{xbox360}
 
+\textbf{Byzantine Paxos}: Leslie Lamport usó el TLAPS para derivar y chequear una prueba formal de la correctitud de la versión \textit{bizantina} del \textit{algoritmo de Paxos},
+usado para garantizar tolerancia a fallas en sistemas distribuidos, y agregándosele en este caso tolerancia a un cierto número de procesos \textit{maliciosos}. \cite{byzpaxos}
+
+\textbf{Farsite}: Proyecto de investigación de Microsoft que buscaba desarrollar un sistema de archivos distribuido con la semántica de NTFS.
+Se desarrolló entre 2001 y 2006, y se usó activamente TLA+ para especificación y verificación de propiedades concurrentes. \cite{farsite}
 
 \section{Comparación con otras herramientas}
 Para realizar la comparación con otras herramientas decidimos primero comparar TLA+ con otra herramienta ya conocida como Alloy,
@@ -226,7 +176,6 @@ y luego abocarnos específicamente a TLAPS.
 
   \subsection{TLA+}
   TLA+ y Alloy poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular que toma su herramienta analizadora a la hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos más realistas presenta problemas. 
-  
   Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
   casi imposibles de escribir en Alloy.
 
@@ -253,28 +202,36 @@ y luego abocarnos específicamente a TLAPS.
 
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
 el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
-En la Figura 2, podemos ver una especificación del algoritmo de Euclides escrita en TLA+.
-\begin{figure}
+A continuación, la arquitectura del código del algoritmo especificada en TLA+:
   \input{euclides}
-  \caption{Arquitectura general del entorno de pruebas TLAPS}
-\end{figure}
-
+  
 Ahora bien, si nosotros quisiéramos corroborar la correctitud de la prueba ejecutando TLAPS, éste nos indicaría un error ya que los \textit{backends} fallarían al intentar demostrar la obligación de prueba. Ésto se debe a que TLAPS
-hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}.
-\\
-
+hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}. 
 Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
-\subitem \textbf{BY DEF} Init, InductiveInvariant\\
-Cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
-Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código, por:
-\subitem \textbf{BY} NumberAssumption \textbf{DEF} Init, InductiveInvariant
-\\
-
+\subitem \textbf{BY DEF} \textit{Init, InductiveInvariant}\\
+, cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
+Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código por:
+\subitem \textbf{BY} \textit{NumberAssumption} \textbf{DEF} \textit{Init, InductiveInvariant}
 Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la prueba.
+
+
 % Otras opciones:
 \section{Conclusiones particulares}
 
+Buen balance entre expresivo y chequeable.
 
+En la industria parece tener más aceptación el model checking que la verificación de pruebas.
+
+Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
+
+Basic TLA+ is simple enough to be quickly understood
+(actions, sets and functions): its standard mathematical
+notation helps.
+
+Complex notions (e.g. fairness, non-determinism) are
+expressible and accessible.
+
+Tools (TLC) are essential to our success
 
 %
 % ---- Bibliography ----
@@ -282,75 +239,63 @@ Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la p
 \begin{thebibliography}{5}
 %
 \bibitem {pnueli}
-Pnueli, Amir
-
-The temporal logic of programs
-
+Pnueli, Amir.
+\textbf{The temporal logic of programs}.
 Proceedings of the 18th IEEE Symposium on Foundation of Computer Science, 1977
 
 \bibitem {specsys}
-Lamport, Leslie
-
-Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers
-
+Lamport, Leslie.
+\textbf{Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers}.
 Addison-Wesley. ISBN 0-321-14306-X, 2002
 
 \bibitem{highlevel}
-Brannon Batson, Leslie Lamport
-
-High-Level Specifications: Lessons from Industry
+Brannon Batson, Leslie Lamport.
+\textbf{High-Level Specifications: Lessons from Industry}.
 
 \bibitem{tlaps}
-Kaustuv Chaudhuri ,Damien Doligez, Leslie Lamport, Stephan Merz
-
-A TLA + Proof System
+Kaustuv Chaudhuri ,Damien Doligez, Leslie Lamport, Stephan Merz.
+\textbf{A TLA + Proof System}.
 
 \bibitem{verifyingsafety}
-Kaustuv Chaudhuri, Damien Doligez, Leslie Lamport, Stephan Merz
-
-Verifying Safety Properties With the TLA+ Proof System
-
-Fifth International Joint Conference on Automated Reasoning - IJCAR 2010, Jul 2010, Edinburgh, United Kingdom
+Kaustuv Chaudhuri, Damien Doligez, Leslie Lamport, Stephan Merz.
+\textbf{Verifying Safety Properties With the TLA+ Proof System}.
+Fifth International Joint Conference on Automated Reasoning 2010
 
 \bibitem{zenon}
-Richard Bonichon, David Delahaye, Damien Doligez
-
-Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs
-
+Richard Bonichon, David Delahaye, Damien Doligez.
+\textbf{Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs}.
 Paris, France
 
 \bibitem{formaltech}
-Martín Abadi, Frank McSherry, Derek G. Murray, and Thomas L. Rodeheffer
-
-Formal Techniques for Distributed Systems
-
+Martín Abadi, Frank McSherry, Derek G. Murray, and Thomas L. Rodeheffer.
+\textbf{Formal Techniques for Distributed Systems}.
 Joint IFIP WG 6.1 International Conference, FMOODS/FORTE 2013
-Held as Part of the 8th International Federated Conference
-on Distributed Computing Techniques, DisCoTec 2013
-Florence, Italy, June 2013, Proceedings
 
 \bibitem {amazon}
-Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff 
-
-How Amazon Web Services Uses Formal Methods
-
+Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff. 
+\textbf{How Amazon Web Services Uses Formal Methods}.
 Communications of the ACM, Vol. 58 No. 4, Pages 66-73
 
 \bibitem{example}
-Microsoft Research - Inria
-
-\url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}
-
-JOINT CENTRE
+\textbf{TLA+ PS: A simple proof}
+\url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}.
+Microsoft Research - Inria Joint Centre
 
 \bibitem {xbox360}
 Lamport, Leslie 
-
-Thinking for Programmers (at 21m46s) (Grabación de charla técnica). 
-
+\textbf{Thinking for Programmers} (at 21m46s) (Grabación de charla técnica). 
 \url{http://channel9.msdn.com/Events/Build/2014/3-642#time=21m46s}
+Microsoft San Francisco
 
-San Francisco: Microsoft.
+\bibitem {byzpaxos}
+Lamport, Leslie
+\textbf{Byzantizing Paxos by Refinement}
+Distributed Computing: 25th International Symposium: DISC 2011,
+
+\bibitem {farsite}
+William J. Bolosky, John R. Douceur, Jon Howell
+\textbf{The Farsite Project: A Retrospective}
+Microsoft Research Redmond
 
 \end{thebibliography}
 
