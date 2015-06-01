@@ -13,7 +13,6 @@
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
 
-
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{amssymb}
@@ -67,50 +66,38 @@ Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, 
 de comprobar la prueba, TLAPS verifica que el teorema es cierto.
 
 \section{Descripción de la herramienta del lado del usuario}
-
-TLA+ es una herramienta de alto nivel para la descripción de los sistemas, especialmente sistemas concurrentes asíncronos y distribuidos. 
+TLA+ es un lenguaje de alto nivel para la descripción de sistemas, especialmente sistemas concurrentes asíncronos y distribuidos. 
 Fue diseñado para ser simple, muy expresivo, y permitir una formalización directa del razonamiento de aserciones tradicional.
-Se fundamenta en la idea de que la mejor manera de describir formalmente es con matemática simple, y que un lenguaje de especificación debe contener lo menos posible más allá de lo que se necesita para escribir matemática simple con precisión.
-Para cumplir con el objetivo de formalizar el razonamiento de aserciones, TLA+ está basado en TLA (\textit{Temporal Logic of Actions}), una variante simple de la lógica temporal lineal.
+Se basa en la idea de que la mejor manera de describir formalmente es con matemática simple, y que un lenguaje de especificación debe contener lo menos posible más allá de lo que se necesita para escribir matemática simple con precisión. Para cumplir con el objetivo de formalizar el razonamiento de aserciones, TLA+ está basado en TLA (\textit{Temporal Logic of Actions}), una variante simple de la lógica temporal lineal.
 
 % itemizar esto, mencionar toolbox
-TLA+ utiliza a \textbf{PlusCal} como lenguaje de especificación.
-Para el modelado se basa en el \textbf{Modelo Standard}.
-\textbf{TLC} es quien se encarga de verificar la corrección de los modelos.
-Finalmente, \textbf{TLA+ Proof System} es un asistente de pruebas, para verificar las especificaciones dadas en TLA+. 
-En esta herramienta específica es donde nos enfocaremos el resto del documento. 
-Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utilizar todas estas herramientas de manera sencilla e integrada, llamada \textbf{Toolbox}.
-  
+TLA+ posee una interfaz gráfica (\textbf{Toolbox}) desde la cual trabajar con las siguientes herramientas de modo sencillo e integrado:
+
   \begin{itemize}
-    \item TLA+ utiliza \textbf{PlusCal} como lenguaje en el cual se debe realizar la especificación.
-	  PlusCal es un lenguaje algorítmico que, a primera vista, parece un lenguaje de programación imperativo pequeño. Sin embargo, una expresión PlusCal puede ser cualquier expresión de TLA+, lo que significa cualquier cosa que pueda ser expresada con matemática. Esto hace a PlusCal mucho más expresivo que cualquier lenguaje de programación.
-	  Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
-	  Fue diseñado para  reemplazar al  pseudocódigo, conservando su sencillez y proporcionando al mismo tiempo un lenguaje formalmente definido y verificable, en el cual las personas sin tantos conocimientos profundos en matemática pueden definir su especificacion de forma sencilla y facil de entender,
-	  para luego traducirla a TLA+ usando la herramienta.
+    \item \textbf{PlusCal} se usa como lenguaje intermedio para realizar la especificaciones. Es un lenguaje algorítmico que a primera vista parece un lenguaje de programación imperativo pequeño, pero es bastante más expresivo. Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
+	  Fue diseñado para combinar la sencillez del pseudocódigo con la expresividad de un lenguaje formalmente definido y verificable, permitiendo que personas sin mucho conocimiento en matemática formal puedan escribir especificaciones de forma cómoda y luego traducirlas a TLA+ usando la herramienta de traducción provista.
     \item En un \textbf{Modelo Standard}, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es una secuencia de estados y un estado es una asignación de valores a las variables.
 	  En este modelo, un evento, también llamado un paso, es la transición de un estado a otro en un comportamiento.
     \item El chequeador de modelos \textbf{TLC} construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
 	  Genera un conjunto de estados iniciales que satisfacen la especificación y a continuación realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidas. 
-	  La ejecución se detiene cuando todas las transiciones de estado conducen a estados que ya han sido descubiertos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, 
-	  reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
-	  TLC ofrece un método de declarar simetrías del modelo para evitar el fenómeno de \textit{explosión combinatoria}.
-	  También paraleliza el paso de la exploración del estado, y se puede ejecutar en modo distribuido para repartir la carga de trabajo a través de un gran número de computadoras.
-	  TLA+ es un ejemplo de lenguaje de mucha expresividad, puede ser fácilmente utilizado para especificar un programa que acepte una máquina de Turing arbitraria como entrada y puede determinar si se detendrá o no.
-	  Ningún chequeador de modelos puede manejar todas las especificaciones TLA+. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
-    \item \textbf{TLA+ Proof System}, el sistema de prueba de TLA+, es una plataforma que extiende a TLA+, para el desarrollo y verificación mecánica de demostraciones. 
-	  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion.
-	  La herramienta traduce una demostración en un conjunto de pruebas independientes, y llama a una colección de verificadores que se encargan de chequearlas, 
-	  que incluyen demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
-	  La versión actualmente disponible TLAPS maneja casi toda la parte no temporal de TLA+, como así también el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar, en particular invariantes y simulación de transiciones, pero no para propiedades de vitalidad (\textit{liveness}).
-	  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación,
-	  se recomienda chequear instancias finitas con TLC. Esto usualmente detecta varios errores sencilla y rápidamente. 
-	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de una demostración. 
-  \end{itemize}  
+	  La ejecución se detiene cuando todas las transiciones de estado conducen a estados conocidos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
+	  TLC permite declarar simetrías del modelo para evitar el fenómeno de \textit{explosión combinatoria} y paraleliza el paso de exploración de estado para acelerarlo ejecutándolo de modo distribuido.
+	  Dada la alta expresividad de TLA+, ningún chequeador de modelos puede manejar todas sus especificaciones. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
+    \item \textbf{TLA+ Proof System} es una plataforma que extiende a TLA+ para el desarrollo y verificación mecánica de demostraciones. 
+	  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion. Una demostración se traduce en un conjunto de pruebas independientes, que luego se intentan chequear usando una colección de verificadores que incluye demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
+	  La versión actual de TLAPS maneja casi toda la parte no temporal de TLA+ y el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar (como invariantes y simulación de transiciones), pero no para propiedades de vitalidad (\textit{liveness}).
+	  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación
+	  se recomienda chequear instancias finitas con TLC para detectar errores rápidamente. 
+	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de la demostración. 
+  \end{itemize}
+  
+  De aquí en adelante nos enfocaremos en esta última herramienta. 
+
 
 \section{Aspectos técnicos de la herramienta}
 La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{backends} que éste invoca: Isabelle, Zenon y SMT (Satisfiability Modulo Theories).
 
-\begin{figure}[H]
+\begin{figure}
   \includegraphics[scale=0.4]{esquema-informe-ingsoft2}
   \caption{Arquitectura general del entorno de pruebas TLAPS}
 \end{figure}
@@ -157,13 +144,10 @@ Se desarrolló entre 2001 y 2006, y se usó activamente TLA+ para especificació
 Para realizar la comparación con otras herramientas decidimos primero comparar TLA+ con otra herramienta ya conocida como Alloy,
 y luego abocarnos específicamente a TLAPS.
 
-  \subsection{TLA+}
-  TLA+ y Alloy poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular que toma su herramienta analizadora a la hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos más realistas presenta problemas. 
-  Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
-  casi imposibles de escribir en Alloy.
-
-  \subsection{TLAPS}
-  Con respecto a TLAPS específicamente, las herramientas que encontramos como comparables son Isar, Focal y Coq.
+\textbf{TLA+} y \textbf{Alloy} poseen un concepto de modelado similar, pero TLA+ es mucho mas expresivo que Alloy. La expresividad limitada de Alloy aparece como consecuencia del enfoque particular que toma su herramienta analizadora a la hora de realizar el análisis. Alloy es limitado a las relaciones sobre los identificadores, no tiene estructuras de datos ni recursión, esto lo hace muy eficiente para verificar modelos pequeños, pero para modelos más realistas presenta problemas. 
+Esta diferencia toma importancia en la práctica, ya que muchas especificaciones reales escritas en TLA+ son 
+casi imposibles de escribir en Alloy.
+Con respecto a TLAPS específicamente, las herramientas que encontramos como comparables son Isar, Focal y Coq.
     \begin{itemize}
       \item 
       \textbf{Isar} es un lenguaje de prueba declarativo, que corre sobre Isabelle, pero tiene diferencias significativas, que llevan a un estilo de desarrollo de pruebas diferente. Por ejemplo, provee un acumulador para evitar referencias explícitas a los pasos de la prueba, lo cual es bueno para pruebas cortas, pero no tanto para demostraciones largas, que son típicas a la hora de verificar algoritmos. Además como Isabelle está diseñada para uso interactivo, los efectos de los comandos de Isar para demostraciones no son fácilmente 
@@ -181,7 +165,6 @@ y luego abocarnos específicamente a TLAPS.
   Básicamente, TLAPS realiza una integración entre las funcionalidades de  Isar y Coq, ya que utiliza Isabelle y Zenon como backends.
 
 \section{Caso de estudio elegido}
-
 
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
 el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
@@ -201,20 +184,15 @@ Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la p
 % Otras opciones:
 \section{Conclusiones particulares}
 
-Buen balance entre expresivo y chequeable.
+Como conclusión, podemos decir que TLA+ es lo suficientemente simple para ser rápidamente comprendido, gracias a su notación matématica simple (acciones, conjuntos y funciones), 
+pero a la vez permite expresar nociones matemáticas mas complejas como no determinismo y equitatividad. Sumado a esto, el \textbf{Toolbox} facilita al usuario el manejo integrado de todo el conjunto de herramientas integradamente. 
 
-En la industria parece tener más aceptación el model checking que la verificación de pruebas.
+TLAPS, al ser una herramienta específica dedicada a la verificación de correctitud de demostraciones, le otorga a TLA+ una ventaja comparativa con respecto a los demás \textit{model checkers}, aunque es una herramienta que al ser tan específica, no es tan utilizada en el general de los casos a los cuales aplicar un \textit{model checker}.
 
-Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
+Al compararlo con otras herramientas similares, TLAPS resulta como una buena integración de los distintos \textit{backends}, tomando las ventajas de cada uno de ellos a la hora de verificar la correctitud, a diferencia de las otras herramientas que utilizan un único \textit{backend}.
 
-Basic TLA+ is simple enough to be quickly understood
-(actions, sets and functions): its standard mathematical
-notation helps.
+Con respecto al uso en la industria, aparece como un buen ejemplo de cooperación industria-academia muy beneficiosa entre Microsoft e INRIA, además TLA+ tiene una buena aceptación, pero es dificil encontrar casos en los que se utilice TLAPS.
 
-Complex notions (e.g. fairness, non-determinism) are
-expressible and accessible.
-
-Tools (TLC) are essential to our success
 
 %
 % ---- Bibliography ----
