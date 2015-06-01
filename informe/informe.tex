@@ -5,19 +5,13 @@
 %
 \documentclass[spanish]{llncs}
 %
-\usepackage{standalone}
+% \usepackage{standalone}
 \usepackage{pdfpages}
 \usepackage{graphicx}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
-
-
-
-
-
-\usepackage{standalone}
 \usepackage[T1]{fontenc}
 
 \setlength{\parskip}{\smallskipamount}
@@ -203,7 +197,7 @@ y luego abocarnos específicamente a TLAPS.
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
 el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
 A continuación, la arquitectura del código del algoritmo especificada en TLA+:
-  \input{euclides}
+  \input{euclides.tex}
   
 Ahora bien, si nosotros quisiéramos corroborar la correctitud de la prueba ejecutando TLAPS, éste nos indicaría un error ya que los \textit{backends} fallarían al intentar demostrar la obligación de prueba. Ésto se debe a que TLAPS
 hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}. 
