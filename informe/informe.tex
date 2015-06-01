@@ -11,6 +11,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
+\usepackage{float}
 %
 \begin{document}
 %
@@ -29,33 +30,19 @@ Universidad Nacional de Córdoba}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-Agente: Cuando yo le diga hola señor Thompson, usted dice, hola
-
-Homero: ¡Bien!
-
-Agente: ¡¡Hola señor Thompson!!
-
-Homero: ... ...
-
-Agente: ¡¡Recuerde!! ¡su nombre ahora es Homero Thompson!
-
-Homero: ¡¡Enterado!!
-
-Agente: ¡¡Hola señor Thompson!!
-
-Homero: (al otro agente)¡¡Creo que le habla a usted!!!. \dots
-
-\keywords{model checking, proof system, recibirse}
+Analizamos el lenguaje de especificación de alto nivel TLA+ y sus herramientas.
+Nos enfocamos particularmente en \textit{TLA+ Proof System}, un entorno de verificación automática de pruebas formales.
+Estudiamos su contexto de creación, sus ventajas y desventajas y aplicaciones en la industria.
+Comparamos el lenguaje y sus herramientas con otros similares e ilustramos su forma de uso con un ejemplo algorítmico sencillo.
 \end{abstract}
 %
 
 \section{Contexto de creación de la herramienta}
 
- En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema. En principio, un sistema se podía describir con una sola fórmula de lógica temporal. En la práctica no era así. La lógica temporal de Pnueli era ideal para describir ciertas propiedades de los sistemas, pero poco adecuada para muchas otras. Es por ello que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli}
-
-A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions, una variante simple de la lógica temporal de Pnueli). TLA facilita la tarea de describir un sistema completo en una sola fórmula. La mayor parte de una especificación TLA se compone de Matemática ordinaria, no temporal. La lógica temporal sólo juega un rol significativo en la descripción de aquellas propiedades para las que realmente es buena. \cite{specsys}
-
-En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof System (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. El proyecto cuenta con una activa lista de mail para discusiones relativas a su uso y un sistema público de seguimiento de \textit{bugs}.
+ En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema, lo cual en principio podía hacerse en una sola fórmula pero no resultaba así en la práctica. La lógica temporal de Pnueli era ideal para describir ciertas propiedades, pero poco adecuada para muchas otras, por lo que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli} A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions), una variante simple de la lógica temporal de Pnueli que facilita la descripción de un sistema completo en una sola fórmula usando mayormente Matemática ordinaria (no temporal) y reservando la lógica temporal sólo para aquellas propiedades en las que realmente es buena. \cite{specsys}
+ 
+ En 2001, Lamport comenzó a trabajar en el centro \textit{Microsoft Research} de Mountain View, Estados Unidos. De esta etapa surge el proyecto TLA+ Proof System (TLAPS) que actualmente se desarrolla como parte del proyecto \textit{Tools for Proofs} en el centro conjunto de investigación \textit{Microsoft Research - INRIA} de Palaiseau, Francia. 
+ El proyecto continúa en desarrollo activo y cuenta con una activa lista de mail y un sistema público de seguimiento de \textit{bugs}.
 
 % Comentar repercusiones, cómo es que termina en Microsoft y cómo se relacione esto con la evolución del Toolbox y sus aplicaciones en la industria.
 
@@ -117,7 +104,7 @@ Cabe aclarar que TLA+ posee una interfaz gráfica donde el usuario puede utiliza
 \section{Aspectos técnicos de la herramienta}
 La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{backends} que éste invoca: Isabelle, Zenon y SMT (Satisfiability Modulo Theories).
 
-\begin{figure}
+\begin{figure}[H]
   \includegraphics[scale=0.4]{esquema-informe-ingsoft2}
   \caption{Arquitectura general del entorno de pruebas TLAPS}
 \end{figure}
@@ -202,14 +189,8 @@ y luego abocarnos específicamente a TLAPS.
 
 
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
-el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
-
-En la Figura 2, podemos ver una especificación del algoritmo de Euclides escrita en TLA+.
-  \begin{figure}
-    \includegraphics[scale=0.27]{euclid}
-    \caption{Algoritmo de Euclides especificado en TLA+}   
-  \end{figure}
-
+el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales. En la Figura 2, podemos ver una especificación del algoritmo de Euclides escrita en TLA+.
+  
 Ahora bien, si nosotros quisiéramos corroborar la correctitud de la prueba ejecutando TLAPS, éste nos indicaría un error ya que los \textit{backends} fallarían al intentar demostrar la obligación de prueba. Ésto se debe a que TLAPS
 hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}. 
 Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
@@ -218,6 +199,13 @@ Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
 Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código por:
 \subitem \textbf{BY} \textit{NumberAssumption} \textbf{DEF} \textit{Init, InductiveInvariant}
 Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la prueba.
+
+\begin{figure}[H]
+    \includegraphics[scale=0.27]{euclid}
+    \caption{Algoritmo de Euclides especificado en TLA+}   
+  \end{figure}
+
+
 % Otras opciones:
 \section{Conclusiones particulares}
 
@@ -227,6 +215,14 @@ En la industria parece tener más aceptación el model checking que la verificac
 
 Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
 
+Basic TLA+ is simple enough to be quickly understood
+(actions, sets and functions): its standard mathematical
+notation helps.
+
+Complex notions (e.g. fairness, non-determinism) are
+expressible and accessible.
+
+Tools (TLC) are essential to our success
 
 %
 % ---- Bibliography ----
@@ -234,90 +230,63 @@ Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
 \begin{thebibliography}{5}
 %
 \bibitem {pnueli}
-Pnueli, Amir
-
-The temporal logic of programs
-
+Pnueli, Amir.
+\textbf{The temporal logic of programs}.
 Proceedings of the 18th IEEE Symposium on Foundation of Computer Science, 1977
 
 \bibitem {specsys}
-Lamport, Leslie
-
-Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers
-
+Lamport, Leslie.
+\textbf{Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers}.
 Addison-Wesley. ISBN 0-321-14306-X, 2002
 
 \bibitem{highlevel}
-Brannon Batson, Leslie Lamport
-
-High-Level Specifications: Lessons from Industry
+Brannon Batson, Leslie Lamport.
+\textbf{High-Level Specifications: Lessons from Industry}.
 
 \bibitem{tlaps}
-Kaustuv Chaudhuri ,Damien Doligez, Leslie Lamport, Stephan Merz
-
-A TLA + Proof System
+Kaustuv Chaudhuri ,Damien Doligez, Leslie Lamport, Stephan Merz.
+\textbf{A TLA + Proof System}.
 
 \bibitem{verifyingsafety}
-Kaustuv Chaudhuri, Damien Doligez, Leslie Lamport, Stephan Merz
-
-Verifying Safety Properties With the TLA+ Proof System
-
-Fifth International Joint Conference on Automated Reasoning - IJCAR 2010, Jul 2010, Edinburgh, United Kingdom
+Kaustuv Chaudhuri, Damien Doligez, Leslie Lamport, Stephan Merz.
+\textbf{Verifying Safety Properties With the TLA+ Proof System}.
+Fifth International Joint Conference on Automated Reasoning 2010
 
 \bibitem{zenon}
-Richard Bonichon, David Delahaye, Damien Doligez
-
-Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs
-
+Richard Bonichon, David Delahaye, Damien Doligez.
+\textbf{Zenon: an Extensible Automated Theorem Prover Producing Checkable Proofs}.
 Paris, France
 
 \bibitem{formaltech}
-Martín Abadi, Frank McSherry, Derek G. Murray, and Thomas L. Rodeheffer
-
-Formal Techniques for Distributed Systems
-
+Martín Abadi, Frank McSherry, Derek G. Murray, and Thomas L. Rodeheffer.
+\textbf{Formal Techniques for Distributed Systems}.
 Joint IFIP WG 6.1 International Conference, FMOODS/FORTE 2013
-Held as Part of the 8th International Federated Conference
-on Distributed Computing Techniques, DisCoTec 2013
-Florence, Italy, June 2013, Proceedings
 
 \bibitem {amazon}
-Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff 
-
-How Amazon Web Services Uses Formal Methods
-
+Chris Newcombe, Tim Rath, Fan Zhang, Bogdan Munteanu, Marc Brooker, Michael Deardeuff. 
+\textbf{How Amazon Web Services Uses Formal Methods}.
 Communications of the ACM, Vol. 58 No. 4, Pages 66-73
 
 \bibitem{example}
-TLA+ PS: A simple proof
-
-\url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}
-
+\textbf{TLA+ PS: A simple proof}
+\url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}.
 Microsoft Research - Inria Joint Centre
 
 \bibitem {xbox360}
 Lamport, Leslie 
-
-Thinking for Programmers (at 21m46s) (Grabación de charla técnica). 
-
+\textbf{Thinking for Programmers} (at 21m46s) (Grabación de charla técnica). 
 \url{http://channel9.msdn.com/Events/Build/2014/3-642#time=21m46s}
-
 Microsoft San Francisco
 
 \bibitem {byzpaxos}
 Lamport, Leslie
-
-Byzantizing Paxos by Refinement
-
+\textbf{Byzantizing Paxos by Refinement}
 Distributed Computing: 25th International Symposium: DISC 2011,
 
 \bibitem {farsite}
 William J. Bolosky, John R. Douceur, Jon Howell
-
-The Farsite Project: A Retrospective
-
+\textbf{The Farsite Project: A Retrospective}
 Microsoft Research Redmond
-
 
 \end{thebibliography}
 
