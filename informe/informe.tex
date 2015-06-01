@@ -181,35 +181,48 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
   \subsection*{Isabelle}    
 	Es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla.\cite{verifyingsafety}
   \subsection*{Zenon}
-	Es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseñoo es resolver problemas simples de manera rápida.\cite{zenon}
+	Es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida.\cite{zenon}
   \subsection*{SMT}
 	Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
 
 \section{Casos de aplicación de la herramienta}
 
+Mencionamos a continuación algunos ejemplos de aplicación de las herramientas analizadas.
+
+Fue difícil encontrar un ejemplo de la industria donde se use el \textit{Proof System}, el enfoque más habitual resulta ser usar PlusCal y TLA+ para especificar el diseño del sistema y las propiedades deseadas (generalmente de \textit{safety} o \textit{liveness}), y luego usar el \textit{model checker} TLC para intentar asegurar que no existan trazas de ejecución que violen las propiedades esperadas.
 
 \subsection{Amazon}
-\textit{Amazon Web Services} utiliza TLA+ desde 2011. Haciendo \textit{model checking} sobre TLA+ se han descubierto bugs
+\textit{Amazon Web Services} utiliza TLA+ desde 2011. Haciendo \textit{model checking} sobre especificaciones en TLA+ se han descubierto bugs
 en DynamoDB, S3, EBS, y en un \textit{lock manager} interno distribuído.
 
-Algunos bugs requirieron trazas de 35 pasos para ser detectados. También se ha usado model checking para verificar optimizaciones agresivas.
+Muchos de los bugs encontrados eran críticos pero muy sutiles, requiriendo algunos trazas de hasta 35 pasos para ser detectados.
+
+También se ha usado model checking para verificar optimizaciones agresivas.
 
 Además, las especificaciones TLA+ han resultado valiosas como documentación y ayudas de diseño.
+
+Inicialmente se intentó trabajar con Alloy, pero no resulto suficientemente expresivo.
+
+Se ha encontrado además que TLA+ es también muy práctico para modelado de datos y diseño de propiedades de \textit{schemas}.
 \cite{amazon}
 
 \subsection{XBOX 360}
 Microsoft usó TLA+ para encontrar y resolver un \textit{bug} en el sistema de memoria de la consola \textit{XBOX 360}.
 \cite{xbox360}
 
-\subsection{UCON}
+\subsection{Byzantine Paxos}
 
-Usage control model,
+Leslie Lamport usó el TLAPS para derivar y chequear una prueba formal de la correctitud de la versión \textit{bizantina} del \textit{algoritmo de Paxos},
+usado para garantizar tolerancia a fallas en sistemas distribuidos, y agregándosele en este caso tolerancia a un cierto número de procesos \textit{maliciosos}.
+
+\cite{byzpaxos}
 
 \subsection{Farsite}
 
-Sistema de archivos distribuido con la semántica de NTFS.
+Proyecto de investigación de Microsoft que buscaba desarrollar un sistema de archivos distribuido con la semántica de NTFS.
+Se desarrolló entre 2001 y 2006, y se usó activamente TLA+ para especificación y verificación de propiedades concurrentes.
 
-
+\cite{farsite}
 
 \section{Comparación con otras herramientas}
 Para realizar la comparación con otras herramientas decidimos primero comparar TLA+ con otra herramienta ya conocida como Alloy,
@@ -256,16 +269,21 @@ hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como ident
 \\
 
 Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
-\subitem \textbf{BY DEF} Init, InductiveInvariant\\
-Cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
-Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código, por:
-\subitem \textbf{BY} NumberAssumption \textbf{DEF} Init, InductiveInvariant
+\subitem \textbf{BY DEF} \textit{Init, InductiveInvariant}\\
+, cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
+Tanto como con las definiciones, debemos especificar cuáles son los hechos que son \textit{usables}. En este caso en particular, tenemos que hacer que el hecho \textit{NumberAssumption} sea usable. Ésto se logra cambiando la última línea de código por:
+\subitem \textbf{BY} \textit{NumberAssumption} \textbf{DEF} \textit{Init, InductiveInvariant}
 \\
 
 Finalmente, SMT tiene éxito a la hora de poder verificar la correctitud de la prueba.
 % Otras opciones:
 \section{Conclusiones particulares}
 
+Buen balance entre expresivo y chequeable.
+
+En la industria parece tener más aceptación el model checking que la verificación de pruebas.
+
+Cooperación industria-academia muy beneficiosa (Microsoft / INRIA)
 
 
 %
@@ -329,11 +347,11 @@ How Amazon Web Services Uses Formal Methods
 Communications of the ACM, Vol. 58 No. 4, Pages 66-73
 
 \bibitem{example}
-Microsoft Research - Inria
+TLA+ PS: A simple proof
 
 \url{http://tla.msr-inria.inria.fr/tlaps/content/Documentation/Tutorial/A_simple_proof.html}
 
-JOINT CENTRE
+Microsoft Research - Inria Joint Centre
 
 \bibitem {xbox360}
 Lamport, Leslie 
@@ -342,7 +360,7 @@ Thinking for Programmers (at 21m46s) (Grabación de charla técnica).
 
 \url{http://channel9.msdn.com/Events/Build/2014/3-642#time=21m46s}
 
-San Francisco: Microsoft.
+Microsoft San Francisco
 
 \bibitem {byzpaxos}
 Lamport, Leslie
@@ -350,7 +368,14 @@ Lamport, Leslie
 Byzantizing Paxos by Refinement
 
 Distributed Computing: 25th International Symposium: DISC 2011,
-David Peleg, editor.  Springer-Verlag (2011) 211-224.
+
+\bibitem {farsite}
+William J. Bolosky, John R. Douceur, Jon Howell
+
+The Farsite Project: A Retrospective
+
+Microsoft Research Redmond
+
 
 \end{thebibliography}
 
