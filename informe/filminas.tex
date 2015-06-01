@@ -1,4 +1,4 @@
-\documentclass[12pt,handout]{beamer}
+\documentclass[12pt]{beamer}
 
 \input{pre.tex}
 %%%%%%%%%%% Lo que viene  a continuacion es el tipo de presentacion que quieres, las presentaciones se llaman con nombres de ciudades puedes cambiarlas y tomar
@@ -69,7 +69,7 @@ Universidad Nacional de Córdoba}
 % \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%% EFDs & Algebraic Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{EFDs \& Algebraic Functions}
+\section{Introducción}
 
 \begin{frame}
 \frametitle{EFD-sentences}
@@ -174,295 +174,42 @@ Then
 \[ \mathbf{B} \sat \varphi \]
 
 
-
-
 \end{frame}
 
 
-\section{Global Products}
+\section{Objetivos}
+\begin{frame} 
+\end{frame}
+
+
+\section{Aspectos técnicos}
 
 \begin{frame}
- \frametitle{Global Products}
-\begin{Definition}
-
-\pause 
-\bigskip
-
-A subdirect product 
-
-\pause
-
-\[ \mathbf{A} \subseteq_{SD} \prod_{i \in I} \{\mathbf{A}_i : i \in I\} \]
-
-\pause
-
-is \textit{global} if there is a topology $\tau$ over $I$ such that
-
-\begin{stepitemize}
-
- \item $\tau({E(x,y) : x,y \in \mathbf{A}}) \subseteq \tau$
-
-\item If $x \in \prod_{i \in I} \{\mathbf{A}_i : i \in I\}$ and $E(x,y) \in \tau$ for all $y \in \mathbf{A}$, then $x \in \mathbf{A}$
-
-\end{stepitemize}
-\end{Definition}
+%%%%%%
 \end{frame}
+
+
+\section{Casos de aplicación}
 
 \begin{frame}
-
-\begin{lemma}
-
-\bigskip
-
- If $\varphi$ is an EFD, $\{A_i : i \in I\} \sat \varphi$ and $\mathbf{A}$ is a global product of the algebras 
-$\{\mathbf{A}_i : i \in I\}$ then $\mathbf{A} \sat \varphi$
-
-\end{lemma}
- 
+%%%%%
 \end{frame}
 
-\section{The case of $\mathcal{D}_{01ab}$}
+\section{Comparación con otras herramientas}
 \begin{frame}
- \frametitle{The case of $\mathcal{D}_{01ab}$}
-
-\begin{lemma}
- Every lattice in $\mathcal{D}_{01ab}$ can be represented as a global subdirect product with factors in the subclass
-$\mathcal{G}$ of all two- and three-element members
-% \{\mathbf{2}_{00}, \mathbf{2}_{01}, \mathbf{2}_{10}, \mathbf{2}_{11}, \mathbf{3}_{00}, \mathbf{3}_{0M}, 
-% \mathbf{3}_{01}, \mathbf{3}_{M0}, \mathbf{3}_{MM}, \mathbf{3}_{M1}, \mathbf{3}_{10}, \mathbf{3}_{1M}, \mathbf{3}_{11} \}
-\end{lemma}
+%%%%%%%
 \end{frame}
 
-
+\section{Ejemplo}
 \begin{frame}
-
-\frametitle{Starting with Maximal Subclasses}
-
-\[
-\begin{array}{c}
-Mod(\varphi) = \mathcal{G} - \{\mathbf{A}\} \\ 
-
-\pause
-\bigskip
-
-Mod(\psi) = \mathcal{G} - \{\mathbf{B}\}
-\end{array}
-\]
-
-\pause
-\bigskip
-
-\begin{center}
- $Mod(\varphi \wedge \psi) = \mathcal{G} - \{\mathbf{A},\mathbf{B}\}$
-\end{center}
- 
+%%%%%%%
 \end{frame}
 
-
-
-
-
-
-
-
-
-\section{$\mathcal{G} - \{\mathbf{3}_{MM}\}$ is not AE}
-
+\section{Conclusión}
 \begin{frame}
-
-\frametitle{$\mathcal{G} - \{\mathbf{3}_{MM}\}$ is not AE}
- 
-\begin{propo}
- If $\mathcal{C}$ is an AE subclass of $\mathcal{D}_{01ab}$ containing $\mathcal{G}' = \{\mathbf{2}_{00}, \mathbf{2}_{11}, 
-\mathbf{3}_{0M}, \mathbf{3}_{M0}, \mathbf{3}_{M1}, \mathbf{3}_{1M}\}$ and any member $\mathbf{L}$ of $\mathcal{G}$ with 
-$\{a^{\mathbf{L}},b^{\mathbf{L}}\} = \{0,1\}$, 
-then $\mathbf{3}_{MM} \in \mathcal{C}$
-\end{propo}
-
+%%%%%%%
 \end{frame}
 
-
-\begin{frame}
-
-\bigskip
-
-If there existed an EFD $\varphi$ such that $\mathcal{G}' \sat \varphi$ and $\mathbf{3}_{MM} \nvDash \varphi$...
-
-\pause
-
-\bigskip
-
-1) We can assume $\varphi = \exists ! z \; \bigwedge_{i=1}^{k}p_{i}(z) = q_{i}(z)$. 
-
-
-\begin{stepitemize}
-
-\item Use the \textit{translation property} that holds in $(\mathcal{D}_{01ab})_{SI}$:
-
-\pause
-
-$\mathbf{2}_{ab} \sat \forall x \; y \; (x = y) \vee (z = w) \Leftrightarrow$
-
-$z|_{x \wedge y}^{x \vee y} =  w|_{x \wedge y}^{x \vee y}$
-
-\pause
-\bigskip
-
-where $x|_u^v = (x  \vee u) \wedge v$
-
-%$\mathbf{2}_{ab} \sat \forall x y (x = y) \vee (z = w) \Leftrightarrow$ 
-
-%$((x \wedge y) \vee z) \wedge (x \vee y) =  ((x \wedge y) \vee z) \wedge (x \vee y)$
-
-
-\end{stepitemize}
-
-\end{frame}
-
-\begin{frame}
-
-2) Programming techniques...
-
-\pause
-\bigskip
-
-... to see that $\varphi$ should be
-
-\[ \exists ! z \; (a \wedge b \wedge z = 0) \wedge (a \vee b \vee z = 1) \wedge \varepsilon(z) \]
-
-\bigskip
-
-for some set of equations $\varepsilon(z)$
-
-\end{frame}
-
-\begin{frame}
- 
-3) Finally, more programming...
-
-\pause
-\bigskip
-
-... to conclude that there is no possible choice for $\varepsilon(z)$.
-
-\bigskip
-
-\bigskip
-
-\pause
-
-But
-
-\[ \exists ! z \; (a \wedge b \wedge z = 0) \wedge (a \vee b \vee z = 1) \]
-
-\pause
-
-holds for no $\mathbf{L}$ in $\mathcal{\mathcal{G}}$ with $\{a^{\mathbf{L}},b^{\mathbf{L}}\} = \{0,1\}$
-
-
-\end{frame}
-
-
-
-
-
-
-\section{Axiomatizations in $\mathcal{G}$}
-
-\begin{frame}
- \frametitle{Maximal Classes Axiomatizations}
-
-\begin{tabular}{ | l | l | }
-
-\hline                       \
-
-$\varphi$ & $Mod_{\mathcal{G}}(\varphi)$ \\
-
-\hline
-
-$\exists ! z \; (a \vee b) \wedge z = 0$     	& \pause  $\mathcal{G} - \{\mathbf3_{00} , \mathbf2_{00}\}$ %"a s b != 0"
-\\
-
-\pause
-
-$\exists ! z \; (a \wedge b) \vee z = 1$     	& \pause $\mathcal{G} - \{\mathbf3_{11} , \mathbf2_{11}\}$ %"a i b != 1"
-\\
-
-\pause
-
-$\forall x \; \exists ! z \; ( x|_{a \vee b}^1 \wedge z = a \vee b ) 
-
-\wedge  (x|_{a \vee b}^1 \vee z = 1) $ & \pause $\mathcal{G} - \{\mathbf3_{00}\}$ %"[a s b, 1] complementado"
-\\
-
-\pause
-
-$\forall x \; \exists ! z \; (x|_{a}^{a \vee b} \wedge z = a)
-
-\wedge (x|_{a}^{a \vee b} \vee z = a \vee b)$ 
-& \pause $\mathcal{G} - \{\mathbf3_{01}\}$ %"[a, a s b] complementado"
-\\
-
-\pause
-
-$\forall x \; \exists ! z \; ( x|_0^{a \wedge b} \wedge z = 0) 
-
-\wedge  (x|_0^{a \wedge b} \vee z = a \wedge b)$ & \pause $\mathcal{G} - \{\mathbf3_{11}\}$ %[0, a i b] complementado"
- \\
-
-\pause
-
-$ \forall x \; \exists ! z \; (x|_{b}^{a \vee b} \wedge z = b)
-
-\wedge (x|_{b}^{a \vee b} \vee z = a \vee b)$ & \pause $\mathcal{G} - \{\mathbf3_{10}\}$ %	"[b, a s b] complementado"
- \\
-
-\pause
-
-$\exists ! z \; ( a|_b^1 \wedge z = b ) 
-
-\wedge  (a|_b^1 \vee z = 1)$ & \pause $\mathcal{G} - \{\mathbf3_{M0}\}$ %" a complementado en [b,1]" 
-\\
-
-\pause
-
-$\exists ! z \; ( a|_0^b \wedge z = 0 ) 
-
-\wedge  (a|_0^b \vee z = b)$ & \pause $\mathcal{G} - \{\mathbf3_{M1}\}$ %" a complementado en [0,b]" 
-\\
-
-\pause
-
-$\exists ! z \; ( b|_a^1 \wedge z = a ) 
-
-\wedge  (b|_a^1 \vee z = 1)$ & \pause $\mathcal{G} - \{\mathbf3_{0M}\}$ %" b complementado en [a,1]" 
-\\
-
-\pause
-
-$\exists ! z \; ( b|_0^a \wedge z = 0 ) 
-
-\wedge  (b|_0^a \vee z = a)$ & \pause $\mathcal{G} - \{\mathbf3_{1M}\}$ % b complementado en [0,a]" 
-\\
-
-\hline
-\end{tabular}
-
-\bigskip
-
-\end{frame}
-
-\begin{frame}
- 
-\begin{propo}
- 
-Suppose $\mathcal{C}$ is a subclass of $\mathcal{G}$ closed under the relationship of daughtership that contains 
-\[ \{\mathbf{2}_{01}, \mathbf{2}_{10}, \mathbf{3}_{MM} \} \]
-Then there is an EFD $\varphi$ such that 
-\[ \mathcal{C} = Mod(\varphi) \cap \mathcal{G} \]
-\end{propo}
-
-\end{frame}
 
 
 \begin{frame}%%%%%%%%%%
@@ -473,18 +220,6 @@ Then there is an EFD $\varphi$ such that
 %\pause
 \bibitem[KrCla79]{AE-classes}\textrm{Krauss, P.H., Clark, D.M.}, 
 \textit{Global Subdirect Products}, Amer. Math. Soc. Mem. \textbf{210} (1979).
-
-%\pause
-\bibitem[GraVag96]{AE-classes}\textrm{H. Gramaglia, D. Vaggione}, 
-\textit{Birkhoff-like Sheaf Representations of Varieties of Lattices Expansions}, Studia Logica \textbf{56} (1996), 111-131.
-
-%\pause
-\bibitem[CamVag09]{AE-classes}\textrm{M. Campercholi, D. Vaggione}, \textit{Algebraically Expandable
-Classes}, Algebra Universalis \textbf{61} (2009), no. 2, 151-186.
-
-%\pause
-\bibitem[CamVag10]{Afunc}\textrm{M. Campercholi, D. Vaggione}, \textit{Algebraic Functions}, Studia Logica \textbf{98}, 285-306 (2011).
-
 
 
 \end{thebibliography}
