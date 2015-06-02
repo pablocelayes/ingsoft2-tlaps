@@ -40,7 +40,9 @@
 %\usepackage[normalem]{ulem}
 \usepackage{enumerate}
 %\usepackage[all,2cell,dvips]{xy} \UseAllTwocells \SilentMatrices
-%\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{verbatim}
 
 \title{Análisis de la herramienta TLA+ Proof System}
 %
@@ -66,11 +68,11 @@ Universidad Nacional de Córdoba}
 %   \tableofcontents[pausesections]
 % %  \tableofcontents[pausesections]
 %   %You might wish to add the option [pausesections]
-% \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%% EFDs & Algebraic Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introducción}
-
+\begin{comment}
 \begin{frame}
 \frametitle{EFD-sentences}
 
@@ -102,52 +104,7 @@ given by
 
 $ [\varphi]^{\mathbf{A}} (\vec{a})$ = unique $\vec{b}$ such that 
 
-\[\bigwedge_{i=1}^{k}p_{i}(\vec{a},\vec{b})=q_{i}(\vec{a},\vec{b}) \]
-
-\end{frame}
-
-\begin{frame}
-
-We denote by $[\varphi]^{\mathbf{A}}_i$ the coordinates of this map, ie, $[\varphi]^{\mathbf{A}}_i = \pi_i \circ [\varphi]^{\mathbf{A}}$
-
-\bigskip
-
-We use $E(\varphi)$ (resp. $U(\varphi)$) to denote the \textit{existence sentence of $\varphi$} (resp. \textit{unicity sentence of $\varphi$}):
-
-\[
-\begin{array}{rcl}
-E(\varphi) & = & \forall \vec{x} \; \exists \vec{z}\;\bigwedge_{i=1}^{k}p_{i}(\vec{x},\vec{z})=q_{i}(\vec{x},\vec{z})\\
-U(\varphi) & = & \forall \vec{x} \; \forall \vec{z} \; \forall \vec{w}\;
-\bigwedge_{i=1}^{k}p_{i}(\vec{x},\vec{z})=q_{i}(\vec{x},\vec{z}) \\ 
-& & \wedge (\bigwedge_{i=1}^{k}p_{i}(\vec{x},\vec{w})=q_{i}(\vec{x},\vec{w})) \rightarrow  (\vec{z} = \vec{w})\\
-\end{array}
-\]
-
-\end{frame}
-
-\begin{frame}
-
-\begin{definition}
-
-\bigskip
-
-A sentence of the form $[\varphi]_{i}^\mathbf{A}$ is called an \textit{algebraic function over $\mathbf{A}$}
-
-\pause
-
-\bigskip
-
-An \textit{algebraically expandable (AE) class} is a class $\mathcal{C}$ of algebras definable by EFDs, 
-
-\bigskip
-\pause
-
-i.e.: $\mathcal{C}=Mod(\Sigma )$, for some set $\Sigma$ of EFDs  
-
-\end{definition}
-
-\end{frame}
-
+\[\bigwedge_{i=1}^{k}p_{i}(\vec{a},\vec{b})=q_{i}(\vec{a},\vec{b}) \
 \begin{frame}
  \begin{definition}
   We say that $\mathbf{B}$ is a \textit{daughter} of $\mathbf{A}$ 
@@ -176,21 +133,30 @@ Then
 
 \end{frame}
 
+\end{comment}
 
 \section{Objetivos}
 \begin{frame}
 \begin{stepitemize}
  \item TLAPS permite verificar la correctitud de pruebas escritas en TLA+
- \pause
  \item Una prueba en TLA+ es una colección de sentencias con jerarquía. TLAPS comprueba que dicha jerarquía implican de hecho la correctitud del teorema a demostrar
 \end{stepitemize}
 \end{frame}
 
-\section{Descripción de la herramienta}
+
+
+\section{Descripción del lado del usuario}
 \begin{frame}
- 
- 
+  \begin{itemize}
+    \item Posee un IDE \textbf{Toolbox}, que integra las siguientes herramientas:	
+	\item \textbf{PlusCal}: Lenguaje algoritmico simple que se compila a TLA+
+	\item \textbf{Modelo Standard}: Un sistema se describe como un conjunto de comportamientos
+	\item \textbf{TLC}: \textit{Model Checker}
+	\item \textbf{TLA+ Proof System}: Desarrollo y verificación mecánica de demostraciones
+  \end{itemize}
+
 \end{frame}
+
 
 \section{Aspectos técnicos}
 \begin{frame}
@@ -206,7 +172,36 @@ Then
 
 \section{Comparación con otras herramientas}
 \begin{frame}
-%%%%%%%
+
+
+\frametitle{TLA+ vs Alloy}
+    \begin{itemize}
+      \item Concepto de modelado similar
+      \item TLA+ es mucho mas expresivo que Alloy
+      \item Importancia en la práctica
+      \item Muchas especificaciones reales escritas en TLA+ son casi imposibles de escribir en Alloy
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{herramientas similares a TLAPS}
+  \begin{stepitemize}
+	  \item Isar
+	    \item Corre sobre Isabelle
+	    \item Estilo de desarrollo diferente
+	    \item Bueno para pruebas cortas pero no tanto para pruebas largas
+	    \item Focal
+	    \item Subconjunto de TLA+, que incluye el desarrollo de demostraciones jerárquicamente.
+	    \item Coq
+	    \item Corre sobre Zenon
+	    \item Desarrollo semi-interactivo
+	    
+
+\end{stepitemize}
+
+
 \end{frame}
 
 \section{Ejemplo}
