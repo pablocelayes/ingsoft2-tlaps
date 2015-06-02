@@ -147,13 +147,13 @@ Then
 
 \section{Descripción del lado del usuario}
 \begin{frame}
-  \begin{itemize}
-    \item Posee un IDE \textbf{Toolbox}, que integra las siguientes herramientas:	
+    Posee un IDE \textbf{Toolbox}, que integra las siguientes herramientas:
+      \begin{stepitemize}
 	\item \textbf{PlusCal}: Lenguaje algoritmico simple que se compila a TLA+
 	\item \textbf{Modelo Standard}: Un sistema se describe como un conjunto de comportamientos
 	\item \textbf{TLC}: \textit{Model Checker}
 	\item \textbf{TLA+ Proof System}: Desarrollo y verificación mecánica de demostraciones
-  \end{itemize}
+      \end{stepitemize}
 
 \end{frame}
 
@@ -221,17 +221,24 @@ Then
   \frametitle{herramientas similares a TLAPS}
   \begin{stepitemize}
 	  \item Isar
+	  \begin{itemize}
 	    \item Corre sobre Isabelle
 	    \item Estilo de desarrollo diferente
 	    \item Bueno para pruebas cortas pero no tanto para pruebas largas
-	    \item Focal
-	    \item Subconjunto de TLA+, que incluye el desarrollo de demostraciones jerárquicamente.
-	    \item Coq
+	   \end{itemize}
+	   \item Focal
+	    \begin{itemize}
+	     \item Subconjunto de TLA+, que incluye el desarrollo de demostraciones jerárquicamente. 
+	    \end{itemize}
+	   \item Coq
+	   \begin{itemize}
 	    \item Corre sobre Zenon
 	    \item Desarrollo semi-interactivo
+	   \end{itemize}
+
 	    
 
-\end{stepitemize}
+  \end{stepitemize}
 
 
 \end{frame}
@@ -244,6 +251,18 @@ correctitud del algoritmo de Euclides
 \section{Conclusión}
 \begin{frame}
 %%%%%%%
+  TLA+ : 
+  	   \begin{itemize}
+	    \item Simple pero expresivo (notación matemática simple)
+	    \item Toolbox facilita interacción
+	    \item Buena aceptación en la industria
+	   \end{itemize}
+  TLAPS: 
+    	   \begin{itemize}
+	    \item Ventaja de TLA+ sobre otros \textit{Model Checkers}
+	    \item Demasiado específico => Poco uso en la industria
+	   \end{itemize}
+  
 \end{frame}
 
 
