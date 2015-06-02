@@ -114,8 +114,8 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
   obligaciones de pruebas terminales implican el teorema. Luego, LTAPM genera una prueba del teorema usando la estructura del lema y las obligaciones ya certificadas. Si Isabelle acepta la prueba, estamos seguros de que la versión traducida del teorema es verdadera en Isabelle/TLA+.\cite{verifyingsafety}
 
   Los backends que el TLAPM invoca son: \textbf{Isabelle} es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla\cite{verifyingsafety}.
-  \textbf{Zenon} es el backend invocado por defecto por el TLAPM. Es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
-  basado en el método tableau. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida\cite{zenon}. \textbf{SMT} es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
+  \textbf{Zenon}, es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
+  basado en el método \textit{tableau}. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida\cite{zenon}. \textbf{SMT} es el backend invocado por defecto. Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
 
 \section{Casos de aplicación de la herramienta}
 Mencionamos a continuación algunos ejemplos de aplicación de las herramientas analizadas.

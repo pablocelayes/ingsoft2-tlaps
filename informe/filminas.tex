@@ -160,7 +160,39 @@ Then
 
 \section{Aspectos técnicos}
 \begin{frame}
-%%%%%%
+\frametitle{Aspectos técnicos}
+  Una especificación en TLA+ es un módulo raíz, que puede importar otros módulos por extensión e instanciación de sus respectivos parámetros.
+  \pause
+  
+  La arquitectura de TLAPS se divide en:
+  \begin{stepitemize}
+    \item TLAPM
+    \item Backends
+  \end{stepitemize}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{TLAPM}
+  Se encarga de:
+ \begin{itemize}
+  \item Expandir e instanciar módulos (usando estado implícito)
+  \item Generar obligaciones de prueba
+  \item Invocar a los backends para verificar las obligaciones de pruebas
+  \item Generar estructura del lema
+  \item Generar prueba del teorema usando las obligaciones ya certificadas
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Backends}
+ Para corroborar una obligación de prueba, el comportamiento por defecto de TLAPS es probar con 3 backends en sucesión: 
+ \begin{itemize}
+  \item SMT: invocado por defecto, timeout: 5 segundos
+  \item Zenon: lógica de primer orden, timeout: 10 segundos
+  \item Isa: provador automático de Isabelle, timeout: 30 segundos
+ \end{itemize}
+  Si Isabelle no puede encontrar una prueba, TLAPS (por medio de TLAPM) reporta una falla al intentar demostrar dicha oblicación.
 \end{frame}
 
 
@@ -206,7 +238,7 @@ Then
 
 \section{Ejemplo}
 \begin{frame}
-%%%%%%%
+correctitud del algoritmo de Euclides
 \end{frame}
 
 \section{Conclusión}
