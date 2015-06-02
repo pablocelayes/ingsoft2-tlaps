@@ -40,7 +40,9 @@
 %\usepackage[normalem]{ulem}
 \usepackage{enumerate}
 %\usepackage[all,2cell,dvips]{xy} \UseAllTwocells \SilentMatrices
-%\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{verbatim}
 
 \title{Análisis de la herramienta TLA+ Proof System}
 %
@@ -181,7 +183,29 @@ Then
 \begin{frame} 
 \end{frame}
 
+\begin{comment}
+\section{Descripción del lado del usuario}
+  \begin{frame}
+    \begin{itemize}
+    \item Está ́ basado en TLA (Temporal Logic of Actions), una variante simple de LTL
+    \item Posee un IDE \textbf{Toolbox}, que integra las siguientes herramientas:	
+	\subitem \textbf{PlusCal}: Lenguaje algoritmico simple que se compila a TLA+
+	\subitem \textbf{Modelo Standard}: Un sistema se describe como un conjunto de comportamientos
+	\subitem \textbf{TLC}: \textit{Model Checker}
+	\subitem \textbf{TLA+ Proof System}: Desarrollo y verificación mecánica de demostraciones
 
+    \end{itemize}
+  \end{frame}
+  
+  \begin{frame} 
+      \frametitle{TLA+ Proof System}
+      Plataforma Desarrollo y verificación mecánica de demostraciones
+      Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion.
+      Maneja casi toda la parte no temporal de TLA+ y el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar (como invariantes y simulación de transiciones), pero no para propiedades de vitalidad (\textit{liveness})
+
+  \end{frame}
+  
+\end{comment}
 \section{Aspectos técnicos}
 
 \begin{frame}
@@ -197,8 +221,38 @@ Then
 
 \section{Comparación con otras herramientas}
 \begin{frame}
-%%%%%%%
 \end{frame}
+\begin{comment}
+\begin{frame}
+  \frametitle{TLA+ vs Alloy}
+      \begin{itemize}
+	\item Concepto de modelado similar
+	\item TLA+ es mucho mas expresivo que Alloy
+	    \subitem Importancia en la práctica
+	    \subitem Muchas especificaciones reales escritas en TLA+ son casi imposibles de escribir en Alloy
+
+	\end{itemize}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{herramientas similares a TLAPS}
+        \begin{itemize}
+	  \item Isar
+	    \subitem Corre sobre Isabelle
+	    \subitem Estilo de desarrollo diferente
+	    \subitem Bueno para pruebas cortas pero no tanto para pruebas largas
+	  \item Focal
+	      \subitem Subconjunto de TLA+, que incluye el desarrollo de demostraciones jerárquicamente.
+	  \item Coq
+	      \subitem Corre sobre Zenon
+	      \subitem Desarrollo semi-interactivo
+	    
+
+	\end{itemize}
+\end{frame}
+\end{comment}
+
 
 \section{Ejemplo}
 \begin{frame}
