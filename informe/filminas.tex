@@ -45,6 +45,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{verbatim}
+\usepackage{float}
 
 \title{Análisis de la herramienta TLA+ Proof System}
 %
@@ -142,10 +143,10 @@ Universidad Nacional de Córdoba}
   \pause
   
   La arquitectura de TLAPS se divide en:
-  \begin{stepitemize}
+  \begin{itemize}
     \item TLAPM
     \item Backends
-  \end{stepitemize}
+  \end{itemize}
 
 \end{frame}
 
@@ -168,10 +169,17 @@ Universidad Nacional de Córdoba}
  \begin{stepitemize}
   \item SMT: invocado por defecto, timeout: 5 segundos
   \item Zenon: lógica de primer orden, timeout: 10 segundos
-  \item Isa: provador automático de Isabelle, timeout: 30 segundos
- \end{stepitemize}
- \pause
+  \item Isa: probador automático de Isabelle, timeout: 30 segundos
+ \end{itemize}
   Si Isabelle no puede encontrar una prueba, TLAPS (por medio de TLAPM) reporta una falla al intentar demostrar dicha obligación.
+\end{frame}
+\begin{frame}
+ 
+\begin{figure}
+  \includegraphics[scale=0.30]{esquema-informe-ingsoft2}
+  
+  Arquitectura general de TLAPS
+\end{figure}
 \end{frame}
 
 
