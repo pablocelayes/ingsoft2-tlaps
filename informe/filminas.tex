@@ -1,19 +1,21 @@
 \documentclass[12pt]{beamer}
 
 \input{pre.tex}
-%%%%%%%%%%% Lo que viene  a continuacion es el tipo de presentacion que quieres, las presentaciones se llaman con nombres de ciudades puedes cambiarlas y tomar
+%%%%%%%%%%% Lo que viene  a continuacion es el tipo de presentacion que quieres, 
+% las presentaciones se llaman con nombres de ciudades puedes cambiarlas y tomar
 %%%%%%%%la que mas te guste.
 \mode<presentation> {
   %\usetheme{Frankfurt}
   %\usetheme{Warsaw}
   %\usetheme{Darmstadt}
-  \usetheme{Dresden}
-  %\usetheme{Singapore}
+   \usetheme{Dresden}
+%   \usetheme{Singapore}
   %\usetheme{Bergen}
   %\usetheme{Boadilla}
-  %\usetheme{Berkeley}
+  %\usetheme{BerKeley}
   \setbeamercovered{transparent}
   %\setbeamertemplate{background canvas}[vertical shading][bottom=red!20,top=yellow!30]
+%   \setbeamertemplate{headline}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% aqui vienen los colores
 
@@ -63,77 +65,53 @@ Universidad Nacional de Córdoba}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%  tODO LO QUE QUIERAS PONER EN LOS FRAMES.
-% \begin{frame}
-%   \frametitle{EFD-sentences}
-%   \tableofcontents[pausesections]
-% %  \tableofcontents[pausesections]
+\begin{frame}
+  \frametitle{Veremos...}
+  \tableofcontents[pausesections]
+\end{frame}
+  %  \tableofcontents[pausesections]
 %   %You might wish to add the option [pausesections]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%% EFDs & Algebraic Functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introducción}
-\begin{comment}
-\begin{frame}
-\frametitle{EFD-sentences}
+\section{Contexto}
+\begin{frame}{1977}
+  Pnueli introduce su lógica temporal para describir sistemas.
+  \pause
+  \begin{stepitemize}
+    \item útil para ciertas propiedades, limitada para otras
+    \item se combinaba con formas más tradicionales de descripción
+  \end{stepitemize}
+\end{frame}	
+	
+\begin{frame}{fin de los 80's}
+  Lamport introduce TLA
+  \pause
+  \begin{stepitemize}
+    \item variante de la lógica temporal de Pnueli
+    \item mayormente notación matemática tradicional
+    \item lógica temporal sólo donde es imprescindible  
+  \end{stepitemize}
+\end{frame}	
 
-Let $\mathcal{L}$ be an algebraic first-order language. 
-\pause
-
-An \textit{Equational Function Definition Sentence}
-(\textit{EFD for short}) is a sentence of the form
-\pause
-\[
-\varphi =\forall \vec{x} \; \exists ! \vec{z}\;\bigwedge_{i=1}^{k}p_{i}(%
-\vec{x},\vec{z})=q_{i}(\vec{x},\vec{z})\text{.} 
-\] 
-\pause
-where $p_i$ and $q_i$ are $\mathcal{L}$-terms.
-
+\begin{frame}{2001...}
+  Lamport se va a Microsoft Research
+  \pause
+  \begin{stepitemize}
+    \item Surge TLA+ (extensión de TLA para escribir \textbf{pruebas})
+    \item Desarrollo del \textbf{Toolbox} y el {TLA+ Proof System}
+  \end{stepitemize}
 \end{frame}
-\begin{frame}
-\frametitle{Algebraic Functions}
-Suppose $\varphi$ is an EFD, and $\mathbf{A} \sat \varphi$.
-\bigskip
-
-The \textit{function defined by $\varphi$} is the map
-\bigskip
-
-\[ [\varphi]^{\mathbf{A}}: \mathbf{A}^n \to \mathbf{A}^m \]
-
-given by 
-
-$ [\varphi]^{\mathbf{A}} (\vec{a})$ = unique $\vec{b}$ such that 
-
-\[\bigwedge_{i=1}^{k}p_{i}(\vec{a},\vec{b})=q_{i}(\vec{a},\vec{b}) \
-\begin{frame}
- \begin{definition}
-  We say that $\mathbf{B}$ is a \textit{daughter} of $\mathbf{A}$ 
-
-(or $\mathbf{A}$ is a \textit{mother} of $\mathbf{B}$) if 
-\[ \mathbf{B} \in H(\mathbf{A}) \cap IS(\mathbf{A}) \]
-
- \end{definition}
-
-\textbf{Remark} 
-
-If 
-
-\begin{stepitemize}
- \item $\varphi$ is an EFD,
- \item $\mathbf{A} \sat \varphi$ and 
- \item $\mathbf{B}$ is a daughter of $\mathbf{A}$
-\end{stepitemize}
-
-\pause
-
-Then
-
-\[ \mathbf{B} \sat \varphi \]
-
-
+	
+\begin{frame}{...2015}
+  \textit{Tools for Proofs}
+  \pause
+  \begin{stepitemize}
+    \item Colaboración Microsoft - INRIA
+    \item Proyecto activo (issue tracker, mailing list)
+    \item Aplicación en academia e industria
+  \end{stepitemize}
 \end{frame}
-
-\end{comment}
 
 \section{Objetivos}
 \begin{frame}
@@ -142,7 +120,6 @@ Then
  \item Una prueba en TLA+ es una colección de sentencias con jerarquía. TLAPS comprueba que dicha jerarquía implican de hecho la correctitud del teorema a demostrar
 \end{stepitemize}
 \end{frame}
-
 
 
 \section{Descripción del lado del usuario}
@@ -192,7 +169,7 @@ Then
   \item Zenon: lógica de primer orden, timeout: 10 segundos
   \item Isa: provador automático de Isabelle, timeout: 30 segundos
  \end{itemize}
-  Si Isabelle no puede encontrar una prueba, TLAPS (por medio de TLAPM) reporta una falla al intentar demostrar dicha oblicación.
+  Si Isabelle no puede encontrar una prueba, TLAPS (por medio de TLAPM) reporta una falla al intentar demostrar dicha obligación.
 \end{frame}
 
 
@@ -265,21 +242,28 @@ correctitud del algoritmo de Euclides
   
 \end{frame}
 
-
-
-\begin{frame}%%%%%%%%%%
-\frametitle{References}
-
-\begin{thebibliography}{CamVag2009}
-
-%\pause
-\bibitem[KrCla79]{AE-classes}\textrm{Krauss, P.H., Clark, D.M.}, 
-\textit{Global Subdirect Products}, Amer. Math. Soc. Mem. \textbf{210} (1979).
-
-
-\end{thebibliography}
-
+\begin{frame}
+ {\Huge ¿Preguntas?}
 \end{frame}
+
+\begin{frame}
+ {\Huge ¡Gracias por escuchar!}
+\end{frame}
+
+
+
+% \begin{frame}%%%%%%%%%%
+% \frametitle{Referencias}
+% \begin{thebibliography}
+% 
+% %\pause
+% \bibitem[KrCla79]{AE-classes}\textrm{Krauss, P.H., Clark, D.M.}, 
+% \textit{Global Subdirect Products}, Amer. Math. Soc. Mem. \textbf{210} (1979).
+% 
+% 
+% \end{thebibliography}
+% 
+% \end{frame}
 
 \begin{frame}
 \begin{figure}[center]
