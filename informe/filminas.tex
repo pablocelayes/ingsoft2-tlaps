@@ -122,7 +122,7 @@ Universidad Nacional de Córdoba}
 \end{frame}
 
 
-\section{Descripción del lado del usuario}
+\section[Descripción]{Descripción del lado del usuario}
 \begin{frame}
     Posee un IDE \textbf{Toolbox}, que integra las siguientes herramientas:
       \begin{stepitemize}
@@ -152,44 +152,72 @@ Universidad Nacional de Córdoba}
 \begin{frame}
  \frametitle{TLAPM}
   Se encarga de:
- \begin{itemize}
+ \begin{stepitemize}
   \item Expandir e instanciar módulos (usando estado implícito)
   \item Generar obligaciones de prueba
   \item Invocar a los backends para verificar las obligaciones de pruebas
   \item Generar estructura del lema
   \item Generar prueba del teorema usando las obligaciones ya certificadas
- \end{itemize}
+ \end{stepitemize}
 \end{frame}
 
 \begin{frame}
  \frametitle{Backends}
  Para corroborar una obligación de prueba, el comportamiento por defecto de TLAPS es probar con 3 backends en sucesión: 
- \begin{itemize}
+ \pause
+ \begin{stepitemize}
   \item SMT: invocado por defecto, timeout: 5 segundos
   \item Zenon: lógica de primer orden, timeout: 10 segundos
   \item Isa: provador automático de Isabelle, timeout: 30 segundos
- \end{itemize}
+ \end{stepitemize}
+ \pause
   Si Isabelle no puede encontrar una prueba, TLAPS (por medio de TLAPM) reporta una falla al intentar demostrar dicha obligación.
 \end{frame}
 
 
-\section{Casos de aplicación}
-
+\section[Casos]{Casos de aplicación}
 \begin{frame}
-%%%%%
+  \begin{stepitemize}
+    \item Amazon
+      \begin{itemize}
+      \item DynamoDB, S3, EBS
+      \item Bugs críticos pero sutiles: ¡trazas de hasta \textbf{35} pasos!
+      \item adopción generalizada en la empresa
+      \end{itemize}
+    \item XBOX 360 
+      \begin{itemize}
+       \item bug \textbf{crítico} en sistema de memoria
+       \item lo descubrió un pasante con TLA+
+       \item cada \texit{XBOX 360} se habría colgado tras 4 horas de uso
+      \end{itemize}
+  \end{stepitemize}
 \end{frame}
 
-\section{Comparación con otras herramientas}
 \begin{frame}
+  \begin{stepitemize}
+    \item Farsite
+      \begin{itemize}
+	\item Sistema de archivos distribuido $\approx$ NTFS
+	\item TLA+ para especificar y verificar propiedades concurrentes
+      \end{itemize}
+    \item Byzantine Paxos
+      \begin{itemize}
+      \item Tolerancia a fallas maliciosas en sistemas distribuidos
+      \item Prueba formal
+      \end{itemize}
+  \end{stepitemize}
+\end{frame}
 
 
+\section[Comparaciones]{Comparación con otras herramientas}
+\begin{frame}
 \frametitle{TLA+ vs Alloy}
-    \begin{itemize}
+    \begin{stepitemize}
       \item Concepto de modelado similar
       \item TLA+ es mucho mas expresivo que Alloy
       \item Importancia en la práctica
       \item Muchas especificaciones reales escritas en TLA+ son casi imposibles de escribir en Alloy
-    \end{itemize}
+    \end{stepitemize}
 
 \end{frame}
 
@@ -225,21 +253,22 @@ Universidad Nacional de Córdoba}
 correctitud del algoritmo de Euclides
 \end{frame}
 
-\section{Conclusión}
+\section{Conclusiones}
 \begin{frame}
 %%%%%%%
-  TLA+ : 
+  \begin{stepitemize}
+  \item TLA+ : 
   	   \begin{itemize}
 	    \item Simple pero expresivo (notación matemática simple)
 	    \item Toolbox facilita interacción
 	    \item Buena aceptación en la industria
 	   \end{itemize}
-  TLAPS: 
+  \item TLAPS: 
     	   \begin{itemize}
 	    \item Ventaja de TLA+ sobre otros \textit{Model Checkers}
-	    \item Demasiado específico => Poco uso en la industria
+	    \item Demasiado específico $\rightarrow$ Poco uso en la industria
 	   \end{itemize}
-  
+  \end{stepitemize}
 \end{frame}
 
 \begin{frame}
