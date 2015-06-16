@@ -42,6 +42,25 @@ Comparamos el lenguaje y sus herramientas con otros similares e ilustramos su fo
 \end{abstract}
 %
 
+\section{Introducción}
+
+En el presente informe analizaremos el lenguaje de especificación TLA, su extensión como lenguaje de pruebas TLA+
+y la herramienta de verificación TLA Proof System, junto con su toolbox asociado de herramientas de especificación
+y verificación de modelos.
+
+\textbf{Organización del informe}: La sección 2 cuenta brevemente el origen del lenguaje TLA,
+su extensión al lenguaje de pruebas TLA+ y el desarrollo de su \textit{toolbox} de herramientas hasta la actualidad.
+
+En la sección 3 describimos el objetivo principal del TLA Proof System para pasar a detallar sus componentes principales y forma de uso en la sección 4
+y describir en detalle su arquitectura y funcionamiento interno en la sección 5.
+
+En la sección 7 analizaremos varios casos de aplicación en la industria y la academia, y daremos comparaciones con otras herramientas en la sección 8.
+
+En la sección 8 ilustramos la forma de trabajo con TLAPS a través de un ejemplo sencillo de desarrollo y verificación de la prueba formal de un
+algoritmo aritmético conocido: el \textit{Algoritmo de Euclides} para cálculo de máximo común divisor.
+
+Por último, en la sección 9 daremos nuestras conclusiones y evaluación general sobre la herramienta analizada.
+
 \section{Contexto de creación de la herramienta}
 
  En 1977, Amir Pnueli introdujo el uso de lógica temporal para describir el comportamiento de un sistema, lo cual en principio podía hacerse en una sola fórmula pero no resultaba así en la práctica. La lógica temporal de Pnueli era ideal para describir ciertas propiedades, pero poco adecuada para muchas otras, por lo que normalmente se la combinaba con maneras más tradicionales de describir sistemas. \cite{pnueli} A fines de los 80's Leslie Lamport inventó el lenguaje TLA (Temporal Logic of Actions), una variante simple de la lógica temporal de Pnueli que facilita la descripción de un sistema completo en una sola fórmula usando mayormente Matemática ordinaria (no temporal) y reservando la lógica temporal sólo para aquellas propiedades en las que realmente es buena. \cite{specsys}
