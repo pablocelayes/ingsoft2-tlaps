@@ -78,9 +78,7 @@ TLAPS es una herramienta que verifica mecánicamente la correctitud de pruebas e
 Éste es un lenguaje de especificación de propósito general, orientado a sistemas concurrentes y distribuidos\cite{highlevel}.
 En general, una prueba de TLA+ es una colección de sentencias estructuradas jerárquicamente,
 donde cada sentencia tiene una afirmación, injustificada o justificada por una colección de hechos citados.
-El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir,
-que la jerarquía de las sentencias de hecho establecen la veracidad del teorema si las afirmaciones fueran ciertas,
-y luego verificar que la afirmación de cada sentencia justificada es implicada por los hechos citados\cite{tlaps}.
+El propósito de TLAPS es verificar las pruebas de teoremas propuestas por el usuario, es decir, que tomando como ciertas las sentencias que están en un nivel de jerarquía más bajo que la del teorema a demostrar, establecen la veracidad del teorema a demostrar, y luego verificar que cada sentencia justificada es implicada por los hechos (precondiciones, hipótesis) que provee el usuario\cite{tlaps}.
 Si un teorema de TLA+ tiene una prueba con todas sus afirmaciones justificadas, entonces, como resultado
 de comprobar la prueba, TLAPS verifica que el teorema es cierto.
 
@@ -135,6 +133,15 @@ La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de prue
   Los backends que el TLAPM invoca son: \textbf{Isabelle} es un demostrador de teoremas genérico, diseñado para hacer razonamiento interactivo en una variedad de teorías formales. Provee un lenguaje para describir las lógicas-objeto y para probar sus teoremas. Es invocado cuando la prueba en Zenon falla\cite{verifyingsafety}.
   \textbf{Zenon}, es un demostrador de teoremas automático para lógica clásica de primer orden (con igualdad), 
   basado en el método \textit{tableau}. Inicialmente diseñado para generar pruebas chequeables en el demostrador de teoremas Coq. Ahora extendido para generar scripts de pruebas chequeables en Isabelle. Uno de sus objetivos de diseño es resolver problemas simples de manera rápida\cite{zenon}. \textbf{SMT} es el backend invocado por defecto. Es particularmente bueno en problemas difíciles que involucran aritmética, funciones sin interpretar y cuantificadores.\cite{formaltech}
+  \\
+  
+  \textbf{Tipos de Pruebas}
+  
+  Hay dos tipos de prueba que se pueden relizar con TLAPS:
+  
+  \input{hproof.tex}
+
+  En la sección 8, se ilustra un sencillo ejemplo usando una prueba de una línea.
 
 \section{Casos de aplicación de la herramienta}
 Mencionamos a continuación algunos ejemplos de aplicación de las herramientas analizadas.
@@ -181,15 +188,19 @@ Con respecto a TLAPS específicamente, las herramientas que encontramos como com
   
   Básicamente, TLAPS realiza una integración entre las funcionalidades de  Isar y Coq, ya que utiliza Isabelle y Zenon como backends.
 
+
+
 \section{Caso de estudio elegido}
 
 Ilustraremos la forma en que se trabaja con TLAPS a través de un ejemplo sencillo\cite{example}: 
 el desarrollo de una prueba de correctitud del clásico \textit{Algoritmo de Euclides} para el cálculo del \textit{máximo común divisor} entre pares de números naturales.
-A continuación, la arquitectura del código del algoritmo especificada en TLA+:
+A continuación, la arquitectura del código del algoritmo especificada en TLA+:\newpage
   \input{euclides.tex}
   
 Ahora bien, si nosotros quisiéramos corroborar la correctitud de la prueba ejecutando TLAPS, éste nos indicaría un error ya que los \textit{backends} fallarían al intentar demostrar la obligación de prueba. Ésto se debe a que TLAPS
 hace uso de los símbolos \textit{Init} e \textit{InductiveInvariant} como identificadores opacos, a menos que de manera explícita se les indique que expandan sus respectivas definiciones. Esto se logra con la directiva \textbf{\textit{DEF}}. 
+
+\newpage
 Si cambiamos la última línea de código (\textbf{OBVIOUS}), por:
 \subitem \textbf{BY DEF} \textit{Init, InductiveInvariant}\\
 , cuando las obligaciones de pruebas se envíen a los \textit{backends}, éstas se expandirán según sus definiciones. Desafortunadamente, todavía no es suficiente para probar la correctitud del teorema, si hacemos la verificación de prueba, nos seguirá indicando que ninguno de los \textit{backends} pudo completar la prueba.
