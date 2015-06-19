@@ -88,25 +88,28 @@ Fue diseñado para ser simple, muy expresivo, y permitir una formalización dire
 Se basa en la idea de que la mejor manera de describir formalmente es con matemática simple, y que un lenguaje de especificación debe contener lo menos posible más allá de lo que se necesita para escribir matemática simple con precisión. Para cumplir con el objetivo de formalizar el razonamiento de aserciones, TLA+ está basado en TLA (\textit{Temporal Logic of Actions}), una variante simple de la lógica temporal lineal.
 
 % itemizar esto, mencionar toolbox
-TLA+ posee una interfaz gráfica (\textbf{Toolbox}) desde la cual trabajar con las siguientes herramientas de modo sencillo e integrado:
+Cabe aclarar que TLA+ posee una interfaz gráfica (\textbf{Toolbox}) donde el usuario puede utilizar todas estas herramientas de manera sencilla e integrada.
 
-  \begin{itemize}
-    \item \textbf{PlusCal} se usa como lenguaje intermedio para realizar la especificaciones. Es un lenguaje algorítmico que a primera vista parece un lenguaje de programación imperativo pequeño, pero es bastante más expresivo. Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
+  \subsection{PlusCal}
+	  \textbf{PlusCal} se usa como lenguaje intermedio para realizar la especificaciones. Es un lenguaje algorítmico que a primera vista parece un lenguaje de programación imperativo pequeño, pero es bastante más expresivo. Un algoritmo PlusCal se traduce (compila) en una especificación TLA+, la cual puede ser chequeada con las herramientas de TLA+.
 	  Fue diseñado para combinar la sencillez del pseudocódigo con la expresividad de un lenguaje formalmente definido y verificable, permitiendo que personas sin mucho conocimiento en matemática formal puedan escribir especificaciones de forma cómoda y luego traducirlas a TLA+ usando la herramienta de traducción provista.
-    \item En un \textbf{Modelo Standard}, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es una secuencia de estados y un estado es una asignación de valores a las variables.
+  \subsection{Modelo STANDARD}  
+	  En un \textbf{Modelo Standard}, un sistema abstracto se describe como un conjunto de comportamientos, cada uno representando una posible ejecución del sistema, donde un comportamiento es una secuencia de estados y un estado es una asignación de valores a las variables.
 	  En este modelo, un evento, también llamado un paso, es la transición de un estado a otro en un comportamiento.
-    \item El chequeador de modelos \textbf{TLC} construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
+  \subsection{TLC}
+	  El chequeador de modelos \textbf{TLC} construye un modelo de estado finito de las especificaciones TLA+ para el control de las propiedades de invariancia.
 	  Genera un conjunto de estados iniciales que satisfacen la especificación y a continuación realiza una búsqueda en amplitud (Breadth-First Search) sobre todas las transiciones de estado definidas. 
 	  La ejecución se detiene cuando todas las transiciones de estado conducen a estados conocidos. Si TLC descubre un estado que viola un invariante del sistema, se detiene y ofrece una traza infractora. En caso de que haya alcanzado un estado que no tenga posibles acciones habilitadas, reporta un mensaje de error explicitando el posible \textit{deadlock} (opcional).
 	  Dada la alta expresividad de TLA+, ningún chequeador de modelos puede manejar todas sus especificaciones. TLC maneja un subconjunto de TLA+ que intenta incluir la mayoría de las especificaciones algorítmicas y propiedades de corrección, así como todas las especificaciones de diseño de protocolos y sistemas.
-    \item \textbf{TLA+ Proof System} es una plataforma que extiende a TLA+ para el desarrollo y verificación mecánica de demostraciones. 
+\subsection{TLA+ Proof System}	  
+	  \textbf{TLA+ Proof System} es una plataforma que extiende a TLA+ para el desarrollo y verificación mecánica de demostraciones. 
 	  El lenguaje de pruebas de TLA+ es declarativo y requiere cierto conocimiento previo de matemática elemental. Soporta desarrollo incremental y verifica la estructura jerárquica de la demostracion. Una demostración se traduce en un conjunto de pruebas independientes, que luego se intentan chequear usando una colección de verificadores que incluye demostradores de teoremas, asistentes de pruebas, chequeadores de satisfacibilidad y procedimientos de decisión.
 	  TLAPS maneja casi toda la parte no temporal de TLA+ y el razonamiento temporal necesario para probar propiedades de seguridad (\textit{safety}) estándar (como invariantes y simulación de transiciones), pero no para propiedades de vitalidad (\textit{liveness}).
 	  Desarrollar demostraciones es complejo y propenso a errores, por lo que previo a verificar la correctitud de una especificación
 	  se recomienda chequear instancias finitas con TLC para detectar errores rápidamente. 
 	  Una vez que TLC no encuentra errores, se puede intentar probar la correctitud de la demostración.
 	  De aquí en adelante nos enfocaremos en esta última herramienta. 
-  \end{itemize}
+
 
 \section{Aspectos técnicos de la herramienta}
 La arquitectura general de TLAPS (Fig. 1) se divide en: el administrador de pruebas de LTA (\textit{LTAPM}) y tres \textit{backends} que éste invoca: Isabelle, Zenon y SMT (Satisfiability Modulo Theories).
